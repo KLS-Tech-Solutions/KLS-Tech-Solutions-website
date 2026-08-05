@@ -4,27 +4,58 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Button variants.
+ *
+ * `hero` carries a gradient sheen that sweeps on hover — implemented with a
+ * masked pseudo-element so it costs one composited layer and no JavaScript.
+ * Lift is kept to 1px: the previous 1.02 scale caused visible text reflow on
+ * wide buttons.
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  [
+    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg",
+    "text-sm font-medium ring-offset-background",
+    "transition-all duration-300 ease-out-expo",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+    "[&_svg]:transition-transform [&_svg]:duration-300",
+  ].join(" "),
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border bg-transparent hover:bg-secondary hover:text-secondary-foreground",
+        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90",
+        outline:
+          "border border-border bg-transparent hover:border-primary/40 hover:bg-secondary hover:text-secondary-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        // Enterprise variants
-        hero: "bg-primary text-primary-foreground font-semibold shadow-glow hover:shadow-[0_0_50px_-10px_hsl(190_100%_50%_/_0.5)] hover:scale-[1.02]",
-        heroOutline: "border-2 border-primary/50 bg-transparent text-foreground hover:border-primary hover:bg-primary/10",
-        enterprise: "bg-secondary text-foreground border border-border hover:bg-accent hover:border-primary/30",
+
+        /* Primary brand action — gradient fill, sheen sweep, subtle lift. */
+        hero: [
+          "overflow-hidden bg-gradient-brand font-semibold text-primary-foreground shadow-glow",
+          "hover:-translate-y-0.5 hover:shadow-elevated",
+          "hover:[&_svg:last-child]:translate-x-0.5",
+          "before:absolute before:inset-y-0 before:-left-full before:w-1/3 before:skew-x-12",
+          "before:bg-gradient-to-r before:from-transparent before:via-white/25 before:to-transparent",
+          "hover:before:animate-sheen",
+        ].join(" "),
+
+        /* Secondary brand action — reads clearly on both light and dark. */
+        heroOutline:
+          "border border-border bg-card/60 font-medium text-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/50 hover:bg-card hover:shadow-card",
+
+        /* Quieter action for use inside cards and dense sections. */
+        enterprise:
+          "border border-border bg-secondary text-secondary-foreground hover:border-primary/30 hover:bg-accent",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
-        lg: "h-12 rounded-md px-8 text-base",
-        xl: "h-14 rounded-lg px-10 text-lg",
+        lg: "h-12 px-7 text-[0.9375rem]",
+        xl: "h-14 px-8 text-base",
         icon: "h-10 w-10",
       },
     },

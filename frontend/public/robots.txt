@@ -1,14 +1,41 @@
+# robots.txt — KLS Tech Solutions
+# https://klstechsolutions.com
+
+User-agent: *
+Allow: /
+
+# Search engines
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+# Social preview crawlers
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
+
+# AI answer engines are allowed deliberately. The site's content is written
+# to be quoted accurately by them, and citations are qualified traffic.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://klstechsolutions.com/sitemap.xml

@@ -1,201 +1,193 @@
+import { ArrowRight, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Droplets, Gauge, Bell, Smartphone, Shield, Zap } from "lucide-react";
+
+import FeatureCard from "@/components/common/FeatureCard";
+import IconTile from "@/components/common/IconTile";
+import Pill from "@/components/common/Pill";
+import Reveal from "@/components/common/Reveal";
+import Section from "@/components/common/Section";
+import SectionHeader from "@/components/common/SectionHeader";
 import Layout from "@/components/layout/Layout";
-import SectionHeader from "@/components/ui/SectionHeader";
-import FeatureCard from "@/components/ui/FeatureCard";
+import CtaBanner from "@/components/sections/CtaBanner";
+import FaqSection from "@/components/sections/FaqSection";
+import PageHero from "@/components/sections/PageHero";
+import JsonLd from "@/components/seo/JsonLd";
+import Seo from "@/components/seo/Seo";
+import { Button } from "@/components/ui/button";
+import { pageMeta } from "@/config/seo";
+import { assets } from "@/config/site";
+import {
+  productFaqs,
+  productFeatures,
+  smartWaterMonitor,
+  technicalOverview,
+} from "@/content/products";
+import { breadcrumbSchema, productSchema } from "@/lib/schema";
 
-const Products = () => {
-  return (
-    <Layout>
-      {/* Hero Section */}
-      <section className="section-padding border-b border-border">
-        <div className="container-narrow mx-auto">
-          <div className="max-w-3xl">
-            <div className="mb-6 flex items-center gap-4">
-              <img 
-                src="/kls-logo-nobg.png" 
-                alt="KLS Solutions Logo" 
-                className="h-32 w-auto drop-shadow-lg transition-all duration-300"
-                style={{ 
-                  filter: 'drop-shadow(0 4px 12px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 20px rgba(6, 182, 212, 0.6)) drop-shadow(0 0 30px rgba(6, 182, 212, 0.4))'
-                }}
-              />
-            </div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              <Zap className="h-3 w-3" />
-              R&D Phase
-            </div>
-            <h1 className="heading-display text-foreground mb-6">
-              Our Products
-            </h1>
-            <p className="body-large">
-              Intelligent IoT solutions designed for reliability, security, and real-world impact. 
-              Currently in research and development phase.
-            </p>
-          </div>
-        </div>
-      </section>
+const Products = () => (
+  <Layout>
+    <Seo {...pageMeta.products} />
+    <JsonLd
+      data={[
+        breadcrumbSchema([{ name: "Products", path: "/products" }]),
+        productSchema({
+          name: smartWaterMonitor.name,
+          description: smartWaterMonitor.entityDescription,
+          image: assets.productImage,
+          category: smartWaterMonitor.category,
+        }),
+      ]}
+    />
 
-      {/* Smart Water Monitor Section */}
-      <section id="smart-water-monitor" className="section-padding">
-        <div className="container-narrow mx-auto">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-            <div>
-              <SectionHeader
-                label="Flagship Product"
-                title="Smart Water Monitor"
-                description="A comprehensive IoT solution for intelligent water management in residential and commercial settings."
-              />
+    <PageHero
+      badge={
+        <Pill icon={Zap} tone="accent">
+          R&amp;D Phase — not yet available for purchase
+        </Pill>
+      }
+      eyebrow="Our Products"
+      title="Intelligent IoT products, engineered for the real world"
+      description="Designed for reliability, security, and real-world impact. Our product line is currently in the research and development phase."
+      breadcrumbs={[{ name: "Products", path: "/products" }]}
+    />
 
-              <div className="space-y-6 mb-8">
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Gauge className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Real-Time Monitoring</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Continuous flow measurement with precision sensors. Track consumption patterns 
-                      and identify anomalies instantly.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Bell className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">AI-Powered Leak Detection</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Machine learning algorithms analyze usage patterns to detect leaks and 
-                      potential issues before they become problems.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Droplets className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Automated Valve Control</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Automatic shutoff capability in case of detected leaks or abnormal flow. 
-                      Remote control via mobile app.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Smartphone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Mobile & Web Dashboard</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Intuitive interfaces for monitoring, analytics, and control. Available on 
-                      iOS, Android, and web browsers.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Shield className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Enterprise Security</h4>
-                    <p className="text-sm text-muted-foreground">
-                      End-to-end encryption, secure boot, and regular firmware updates. 
-                      Designed for privacy and data protection.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:sticky lg:top-24">
-              <div className="rounded-2xl border border-border bg-card p-8">
-                <div className="aspect-square rounded-xl bg-gradient-to-br from-secondary to-background flex items-center justify-center mb-6 overflow-hidden">
-                  <img 
-                    src="/model2.jpeg" 
-                    alt="Smart Water Monitor Product" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">Status</span>
-                    <span className="text-sm font-medium text-primary">Under Development</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-border">
-                    <span className="text-sm text-muted-foreground">Target Market</span>
-                    <span className="text-sm font-medium text-foreground">Residential & Commercial</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3">
-                    <span className="text-sm text-muted-foreground">Architecture</span>
-                    <span className="text-sm font-medium text-foreground">Edge + Cloud</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Specs Section */}
-      <section className="section-padding bg-card border-y border-border">
-        <div className="container-narrow mx-auto">
+    {/* ---- Smart Water Monitor ----------------------------------------- */}
+    <Section id="smart-water-monitor">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-14">
+        {/* Detail column */}
+        <div className="lg:col-span-7">
           <SectionHeader
-            label="Technical Overview"
-            title="Built for Reliability"
-            description="Designed with industrial-grade components and proven technologies."
-            centered
+            label="Flagship Product"
+            title={smartWaterMonitor.name}
+            description={smartWaterMonitor.summary}
+            className="mb-10"
           />
 
-          <div className="grid gap-6 md:grid-cols-3">
-            <FeatureCard
-              icon={Gauge}
-              title="Precision Sensors"
-              description="High-accuracy flow sensors with ±1% measurement precision. Suitable for both low and high flow rates."
-            />
-            <FeatureCard
-              icon={Shield}
-              title="Secure Architecture"
-              description="TLS 1.3 encryption, secure element for key storage, and tamper detection. GDPR-compliant data handling."
-            />
-            <FeatureCard
-              icon={Smartphone}
-              title="Multi-Platform"
-              description="Native mobile apps for iOS and Android. Web dashboard for comprehensive analytics and management."
-            />
+          {/* Self-contained entity description — this is the paragraph an AI
+              assistant lifts when asked what the product is. */}
+          <Reveal>
+            <p className="mb-10 rounded-2xl border border-border bg-muted/40 p-6 leading-relaxed text-muted-foreground">
+              {smartWaterMonitor.entityDescription}
+            </p>
+          </Reveal>
+
+          <div className="space-y-7">
+            {productFeatures.map((feature, index) => (
+              <Reveal key={feature.title} delay={index * 70}>
+                <div className="flex gap-4">
+                  <IconTile icon={feature.icon} size="sm" />
+                  <div className="min-w-0">
+                    <h3 className="mb-1.5 font-semibold text-foreground">{feature.title}</h3>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="section-padding">
-        <div className="container-narrow mx-auto text-center">
-          <h2 className="heading-section text-foreground mb-4">
-            Interested in Our Products?
-          </h2>
-          <p className="body-large max-w-2xl mx-auto mb-10">
-            We're currently in R&D phase. Reach out to learn more about our 
-            development timeline or discuss potential partnerships.
-          </p>
-          <Button asChild variant="hero" size="xl">
-            <Link to="/contact">
-              Contact Us
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
+        {/* Sticky spec panel */}
+        <div className="lg:col-span-5">
+          <Reveal variant="right" delay={100}>
+            <div className="lg:sticky lg:top-24">
+              <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+                <div className="relative aspect-[4/3] overflow-hidden bg-gradient-card">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-grid opacity-50"
+                  />
+                  <img
+                    src={assets.productImage}
+                    alt={`Concept render of the ${smartWaterMonitor.name}, an IoT device for real-time water flow monitoring and automated valve control`}
+                    width={775}
+                    height={552}
+                    loading="lazy"
+                    decoding="async"
+                    className="relative h-full w-full object-contain p-6"
+                  />
+                </div>
+
+                <dl className="divide-y divide-border p-6">
+                  {[
+                    { label: "Status", value: smartWaterMonitor.status, highlight: true },
+                    { label: "Target Market", value: smartWaterMonitor.targetMarket },
+                    { label: "Architecture", value: smartWaterMonitor.architecture },
+                    { label: "Category", value: smartWaterMonitor.category },
+                  ].map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0"
+                    >
+                      <dt className="text-sm text-muted-foreground">{row.label}</dt>
+                      <dd
+                        className={
+                          row.highlight
+                            ? "text-right text-sm font-semibold text-primary"
+                            : "text-right text-sm font-medium text-foreground"
+                        }
+                      >
+                        {row.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="border-t border-border p-6 pt-5">
+                  <Button asChild variant="hero" size="lg" className="w-full">
+                    <Link to="/contact">
+                      Enquire about availability
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    Currently in development — contact us to discuss timelines or partnerships.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
-      </section>
-    </Layout>
-  );
-};
+      </div>
+    </Section>
+
+    {/* ---- Technical overview ------------------------------------------ */}
+    <Section tone="card" bordered>
+      <SectionHeader
+        label="Technical Overview"
+        title="Built for reliability"
+        description="Designed with industrial-grade components and proven technologies."
+        centered
+      />
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {technicalOverview.map((item, index) => (
+          <Reveal key={item.title} delay={index * 90} className="h-full">
+            <FeatureCard icon={item.icon} title={item.title} description={item.description} />
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+
+    {/* ---- FAQ --------------------------------------------------------- */}
+    <FaqSection
+      items={productFaqs}
+      label="Product FAQ"
+      title="Questions about the Smart Water Monitor"
+      description="What it does, how it works, and where it currently stands."
+      tone="muted"
+    />
+
+    <CtaBanner
+      title="Interested in our products?"
+      description="We're currently in the R&D phase. Reach out to learn more about our development timeline or discuss potential partnerships."
+      primaryLabel="Contact our team"
+      primaryHref="/contact"
+      secondaryLabel="Explore our services"
+      secondaryHref="/solutions"
+    />
+  </Layout>
+);
 
 export default Products;

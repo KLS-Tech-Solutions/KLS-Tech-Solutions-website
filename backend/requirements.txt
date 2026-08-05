@@ -1,0 +1,17 @@
+# KLS Tech Solutions — backend dependencies
+#
+# Install with:  pip install -r requirements.txt
+
+# These versions are the first line that ships prebuilt CPython 3.14
+# (cp314) wheels. Older pins force pip to compile pydantic-core from
+# Rust source, which fails on Windows without MSVC build tools.
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+
+# pydantic[email] pulls in email-validator, which EmailStr in
+# app/api/contact.py requires. Installing plain pydantic will raise
+# ImportError at startup.
+pydantic[email]==2.13.4
+
+# Loads SMTP credentials from backend/.env in development.
+python-dotenv==1.2.2

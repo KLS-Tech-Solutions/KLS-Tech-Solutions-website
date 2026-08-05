@@ -1,249 +1,329 @@
+import { ArrowRight, ChevronRight, Droplets, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Cpu, Brain, Shield, Droplets, Factory, Settings, ChevronRight, Zap } from "lucide-react";
+
+import FeatureCard from "@/components/common/FeatureCard";
+import IconTile from "@/components/common/IconTile";
+import Pill from "@/components/common/Pill";
+import Reveal from "@/components/common/Reveal";
+import Section from "@/components/common/Section";
+import SectionHeader from "@/components/common/SectionHeader";
 import Layout from "@/components/layout/Layout";
-import FeatureCard from "@/components/ui/FeatureCard";
-import SectionHeader from "@/components/ui/SectionHeader";
+import CtaBanner from "@/components/sections/CtaBanner";
+import FaqSection from "@/components/sections/FaqSection";
+import HomeHero from "@/components/sections/HomeHero";
+import ProcessSteps from "@/components/sections/ProcessSteps";
+import Seo from "@/components/seo/Seo";
+import { Button } from "@/components/ui/button";
+import { pageMeta } from "@/config/seo";
+import { company } from "@/config/site";
+import { expertiseAreas, homeFaqs, pillars, solutionAreas, whyChooseUs } from "@/content/home";
+import { smartWaterMonitor } from "@/content/products";
+import { industries, processSteps } from "@/content/services";
 
-const Index = () => {
+const Index = () => (
+  <Layout>
+    <Seo {...pageMeta.home} />
 
-  return (
-    <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-card/50 to-background" />
-        
-        {/* Subtle grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
+    <HomeHero />
 
-        {/* Glow effect */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl animate-pulse-glow" />
+    {/* ---- Who we are -------------------------------------------------- */}
+    {/* A single plain-language entity paragraph, placed high on the page.
+        This is the block AI assistants and answer engines quote when asked
+        "what is KLS Tech Solutions", so it is written to stand alone. */}
+    <Section tone="muted" bordered>
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-5">
+          <Reveal>
+            <p className="eyebrow mb-3">About the company</p>
+            <h2 className="heading-section text-foreground">
+              An engineering-first technology company in Bengaluru
+            </h2>
+          </Reveal>
+        </div>
 
-        <div className="relative container-narrow mx-auto px-6 py-20 lg:py-32">
-          <div className="max-w-4xl">
-            <h1 className="heading-display text-foreground mb-6 animate-fade-up">
-              Smart Living,{" "}
-              <span className="text-gradient">Engineered</span>
-            </h1>
-            
-            <p className="body-large max-w-2xl mb-10 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-              We design and develop intelligent IoT systems powered by AI, 
-              with enterprise-grade security at the core. From concept to deployment, 
-              engineered with precision.
+        <div className="lg:col-span-7">
+          <Reveal delay={80}>
+            <p className="body-large">{company.description}</p>
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              We're not a marketing company that builds tech. We're engineers who solve real
+              problems — which means being straightforward about what's possible, and building
+              systems that are still maintainable years after they ship.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-              <Button asChild variant="hero" size="xl">
-                <Link to="/products">
-                  Explore Products
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild variant="heroOutline" size="xl">
-                <Link to="/solutions">
-                  Build Custom Solution
-                </Link>
-              </Button>
-            </div>
-          </div>
+            <Button asChild variant="link" size="lg" className="mt-4 px-0">
+              <Link to="/about">
+                Read more about how we work
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </Reveal>
         </div>
-      </section>
+      </div>
+    </Section>
 
-      {/* What We Do Section */}
-      <section className="section-padding border-t border-border">
-        <div className="container-narrow mx-auto">
-          <SectionHeader
-            label="What We Do"
-            title="Engineering Excellence Across Three Pillars"
-            description="We bring together IoT hardware, AI intelligence, and robust security architecture to create systems that last."
-            centered
-          />
+    {/* ---- Services ---------------------------------------------------- */}
+    <Section id="services">
+      <SectionHeader
+        label="What We Do"
+        title="Engineering excellence across three pillars"
+        description="We bring together IoT hardware, AI intelligence, and robust security architecture to create systems that last."
+        centered
+      />
 
-          <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
+        {pillars.map((pillar, index) => (
+          <Reveal key={pillar.id} delay={index * 90} className="h-full">
             <FeatureCard
-              icon={Cpu}
-              title="IoT Product Engineering"
-              description="Custom hardware and firmware development for connected devices. From sensors to gateways, designed for reliability and scale."
+              icon={pillar.icon}
+              title={pillar.title}
+              description={pillar.description}
+              featured={index === 0}
             />
-            <FeatureCard
-              icon={Brain}
-              title="AI-Driven Intelligence"
-              description="Machine learning models and intelligent automation that turn raw data into actionable insights and autonomous decisions."
-            />
-            <FeatureCard
-              icon={Shield}
-              title="Secure System Architecture"
-              description="End-to-end security built in from day one. Encrypted communications, secure boot, and compliance-ready infrastructure."
-            />
-          </div>
-        </div>
-      </section>
+          </Reveal>
+        ))}
+      </div>
 
-      {/* Product Highlight Section */}
-      <section className="section-padding bg-card border-y border-border">
-        <div className="container-narrow mx-auto">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                <Zap className="h-3 w-3" />
-                Under Research & Development
+      <Reveal delay={280} className="mt-10 text-center">
+        <Button asChild variant="heroOutline" size="lg">
+          <Link to="/solutions">
+            See all engineering services
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </Button>
+      </Reveal>
+    </Section>
+
+    {/* ---- Why KLS ----------------------------------------------------- */}
+    <Section tone="card" bordered>
+      <SectionHeader
+        label="Why KLS Tech Solutions"
+        title="An engineering-first mindset"
+        description="We're not a marketing company that builds tech. We're engineers who solve real problems."
+        centered
+      />
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {whyChooseUs.map((item, index) => (
+          <Reveal key={item.number} delay={index * 90}>
+            <div className="group relative h-full overflow-hidden rounded-2xl border border-border bg-background p-7 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card">
+              {/* Oversized step number as a watermark. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-2 -top-4 select-none text-7xl font-bold text-primary/[0.07] transition-colors duration-300 group-hover:text-primary/[0.12]"
+              >
+                {item.number}
+              </span>
+
+              <div className="relative">
+                <span className="inline-flex h-10 items-center rounded-full border border-primary/25 bg-primary/10 px-3 text-sm font-semibold text-primary">
+                  {item.number}
+                </span>
+                <h3 className="heading-card mt-5 text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
               </div>
-              
-              <h2 className="heading-section text-foreground mb-4">
-                Smart Water Monitor
-              </h2>
-              
-              <p className="body-large mb-8">
-                Our flagship IoT solution for intelligent water management. 
-                Real-time monitoring, predictive leak detection, and automated 
-                flow control — all secured by end-to-end encryption.
-              </p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
 
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Real-time consumption analytics",
-                  "AI-powered leak detection & alerts",
-                  "Automated valve control",
-                  "Mobile & web dashboard",
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3 text-foreground">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10">
-                      <ChevronRight className="h-4 w-4 text-primary" />
-                    </span>
-                    {feature}
+    {/* ---- Technology expertise ---------------------------------------- */}
+    <Section id="expertise">
+      <SectionHeader
+        label="Technology Expertise"
+        title="Every layer of the stack, in one team"
+        description="From embedded firmware running on the device to the cloud platform it reports into — and the security architecture that connects them."
+        centered
+      />
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {expertiseAreas.map((area, index) => (
+          <Reveal key={area.id} delay={index * 80} className="h-full">
+            <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-xs transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card">
+              <IconTile icon={area.icon} className="mb-5" />
+              <h3 className="heading-card mb-4 text-foreground">{area.title}</h3>
+              <ul className="space-y-2.5">
+                {area.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                    <span
+                      className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                      aria-hidden="true"
+                    />
+                    {item}
                   </li>
                 ))}
               </ul>
-
-              <Button asChild variant="enterprise" size="lg">
-                <Link to="/products#smart-water-monitor">
-                  Learn More
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
             </div>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
 
-            <div className="relative">
-              <div className="aspect-square rounded-2xl border border-border bg-gradient-to-br from-secondary to-card p-8 flex items-center justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
-                  <Droplets className="relative h-32 w-32 text-primary" />
-                </div>
-              </div>
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 h-24 w-24 rounded-xl border border-primary/20 bg-card/50" />
-              <div className="absolute -bottom-4 -left-4 h-16 w-16 rounded-lg border border-border bg-secondary" />
-            </div>
-          </div>
-        </div>
-      </section>
+    {/* ---- Industries -------------------------------------------------- */}
+    <Section tone="muted" bordered id="industries">
+      <SectionHeader
+        label="Industries We Serve"
+        title="Tailored for your sector"
+        description="Our engineering expertise spans multiple industries, with solutions designed for each sector's unique challenges."
+        centered
+      />
 
-      {/* Custom Solutions Section */}
-      <section className="section-padding">
-        <div className="container-narrow mx-auto">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-xl border border-border bg-card p-6">
-                  <Factory className="h-8 w-8 text-primary mb-4" />
-                  <h4 className="font-semibold text-foreground mb-2">Industrial Automation</h4>
-                  <p className="text-sm text-muted-foreground">Factory monitoring, predictive maintenance, process optimization.</p>
-                </div>
-                <div className="rounded-xl border border-border bg-card p-6">
-                  <Settings className="h-8 w-8 text-primary mb-4" />
-                  <h4 className="font-semibold text-foreground mb-2">Home Automation</h4>
-                  <p className="text-sm text-muted-foreground">Smart home systems with local control and cloud connectivity.</p>
-                </div>
-                <div className="col-span-2 rounded-xl border border-border bg-card p-6">
-                  <Shield className="h-8 w-8 text-primary mb-4" />
-                  <h4 className="font-semibold text-foreground mb-2">Secure Infrastructure</h4>
-                  <p className="text-sm text-muted-foreground">Enterprise-grade security for critical systems and sensitive data.</p>
-                </div>
-              </div>
-            </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        {industries.map((industry, index) => (
+          <Reveal key={industry.id} delay={index * 90} className="h-full">
+            <FeatureCard
+              icon={industry.icon}
+              title={industry.title}
+              description={industry.description}
+              bullets={industry.bullets}
+            />
+          </Reveal>
+        ))}
+      </div>
+    </Section>
 
-            <div className="order-1 lg:order-2">
-              <SectionHeader
-                label="Custom Solutions"
-                title="Tailored Engineering for Your Needs"
-                description="From industrial automation to smart home systems, we partner with you to design, develop, and deploy solutions that fit your exact requirements."
-              />
-              
-              <Button asChild variant="hero" size="lg">
-                <Link to="/solutions">
-                  Explore Solutions
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+    {/* ---- Product highlight ------------------------------------------- */}
+    <Section id="smart-water-monitor">
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal variant="left">
+          <Pill icon={Zap} tone="accent" className="mb-5">
+            Under Research &amp; Development
+          </Pill>
 
-      {/* Why KLS Section */}
-      <section className="section-padding bg-card border-y border-border">
-        <div className="container-narrow mx-auto">
-          <SectionHeader
-            label="Why KLS Tech Solutions"
-            title="Engineering-First Mindset"
-            description="We're not a marketing company that builds tech. We're engineers who solve real problems."
-            centered
-          />
+          <p className="eyebrow mb-3">Flagship Product</p>
+          <h2 className="heading-section text-foreground">{smartWaterMonitor.name}</h2>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                title: "Technical Depth",
-                description: "From embedded firmware to cloud architecture, we understand every layer of the stack.",
-              },
-              {
-                title: "Security by Design",
-                description: "Security isn't an afterthought. It's built into every component from day one.",
-              },
-              {
-                title: "Long-term Thinking",
-                description: "We design systems that scale and evolve. No shortcuts, no technical debt.",
-              },
-            ].map((item, index) => (
-              <div key={index} className="text-center p-6">
-                <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-lg font-bold text-primary">
-                  {index + 1}
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <section className="section-padding">
-        <div className="container-narrow mx-auto text-center">
-          <h2 className="heading-section text-foreground mb-4">
-            Let's Build Something Intelligent
-          </h2>
-          <p className="body-large max-w-2xl mx-auto mb-10">
-            Ready to bring your IoT vision to life? We're here to help you design, 
-            develop, and deploy systems that make a difference.
+          <p className="body-large mt-5">
+            Our flagship IoT solution for intelligent water management. Real-time monitoring,
+            predictive leak detection, and automated flow control — all secured by end-to-end
+            encryption.
           </p>
-          <Button asChild variant="hero" size="xl">
-            <Link to="/contact">
-              Get in Touch
-              <ArrowRight className="ml-2 h-5 w-5" />
+
+          <ul className="mt-8 space-y-3.5">
+            {smartWaterMonitor.highlights.map((feature) => (
+              <li key={feature} className="flex items-center gap-3 text-foreground">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <ChevronRight className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                </span>
+                <span className="text-[0.9375rem]">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <Button asChild variant="hero" size="lg" className="mt-9">
+            <Link to="/products">
+              Explore the Smart Water Monitor
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
+        </Reveal>
+
+        <Reveal variant="right" delay={120}>
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-card p-8 shadow-card sm:p-10">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-grid opacity-50"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl"
+              />
+
+              <div className="relative flex aspect-square items-center justify-center">
+                <Droplets className="h-28 w-28 text-primary sm:h-32 sm:w-32" aria-hidden="true" />
+              </div>
+            </div>
+
+            {/* Spec chips, floating over the panel edge. */}
+            <dl className="absolute -bottom-5 left-6 right-6 grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card/90 p-3 shadow-card backdrop-blur-md">
+              {[
+                { label: "Status", value: smartWaterMonitor.status },
+                { label: "Market", value: smartWaterMonitor.targetMarket },
+                { label: "Architecture", value: smartWaterMonitor.architecture },
+              ].map((spec) => (
+                <div key={spec.label} className="min-w-0 px-1 text-center">
+                  <dt className="truncate text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
+                    {spec.label}
+                  </dt>
+                  <dd className="mt-0.5 truncate text-xs font-semibold text-foreground">
+                    {spec.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+
+    {/* ---- Custom solutions -------------------------------------------- */}
+    <Section tone="card" bordered className="pt-28 md:pt-32">
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="order-2 grid gap-4 sm:grid-cols-2 lg:order-1">
+          {solutionAreas.map((area, index) => (
+            <Reveal
+              key={area.id}
+              delay={index * 90}
+              className={index === 2 ? "sm:col-span-2" : undefined}
+            >
+              <div className="h-full rounded-2xl border border-border bg-background p-6 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card">
+                <IconTile icon={area.icon} size="sm" className="mb-4" />
+                <h3 className="mb-1.5 font-semibold text-foreground">{area.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{area.description}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
-      </section>
-    </Layout>
-  );
-};
+
+        <div className="order-1 lg:order-2">
+          <SectionHeader
+            label="Custom Solutions"
+            title="Tailored engineering for your needs"
+            description="From industrial automation to smart home systems, we partner with you to design, develop, and deploy solutions that fit your exact requirements."
+            className="mb-8"
+          />
+          <Reveal delay={120}>
+            <Button asChild variant="hero" size="lg">
+              <Link to="/solutions">
+                Explore custom IoT solutions
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </Reveal>
+        </div>
+      </div>
+    </Section>
+
+    {/* ---- Process ----------------------------------------------------- */}
+    <Section id="process">
+      <SectionHeader
+        label="Our Process"
+        title="How we work"
+        description="A structured approach to delivering reliable, scalable solutions — with something reviewable at every stage."
+        centered
+      />
+      <ProcessSteps steps={processSteps} />
+    </Section>
+
+    {/* ---- FAQ --------------------------------------------------------- */}
+    <FaqSection
+      items={homeFaqs}
+      label="Common Questions"
+      title="What people ask about KLS Tech Solutions"
+      description="Straight answers about who we are, what we build, and where we are today."
+    />
+
+    <CtaBanner
+      title="Let's build something intelligent"
+      description="Ready to bring your IoT vision to life? We're here to help you design, develop, and deploy systems that make a difference."
+      primaryLabel="Start a conversation"
+      primaryHref="/contact"
+      secondaryLabel="Browse our services"
+      secondaryHref="/solutions"
+    />
+  </Layout>
+);
 
 export default Index;

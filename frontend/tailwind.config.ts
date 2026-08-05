@@ -1,20 +1,28 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
+/**
+ * Tailwind reads exclusively from the CSS custom properties declared in
+ * src/index.css. No colour is hard-coded here, so changing a brand value
+ * is a one-line edit in one file.
+ *
+ * The site is light-mode only; there is no dark variant.
+ */
 export default {
-  darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  // Light mode only — no darkMode strategy, so `dark:` variants are not
+  // generated at all and cannot be reintroduced by accident.
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: { DEFAULT: "1.25rem", sm: "1.5rem", lg: "2rem" },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ["Inter Variable", "Inter", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -34,6 +42,10 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -50,6 +62,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Literal logo colours, for the rare case a surface must match the
+           mark exactly regardless of the active theme. */
+        brand: {
+          navy: "hsl(var(--brand-navy))",
+          azure: "hsl(var(--brand-azure))",
+          silver: "hsl(var(--brand-silver))",
+          lime: "hsl(var(--brand-lime))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -62,9 +82,24 @@ export default {
         },
       },
       borderRadius: {
+        "2xl": "calc(var(--radius) + 0.5rem)",
+        xl: "calc(var(--radius) + 0.25rem)",
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 8px)",
+      },
+      boxShadow: {
+        xs: "var(--shadow-xs)",
+        soft: "var(--shadow-sm)",
+        card: "var(--shadow-md)",
+        elevated: "var(--shadow-lg)",
+        glow: "var(--shadow-glow)",
+      },
+      backgroundImage: {
+        "gradient-brand": "var(--gradient-brand)",
+        "gradient-accent": "var(--gradient-accent)",
+        "gradient-surface": "var(--gradient-surface)",
+        "gradient-card": "var(--gradient-card)",
       },
       keyframes: {
         "accordion-down": {
@@ -76,31 +111,41 @@ export default {
           to: { height: "0" },
         },
         "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          from: { opacity: "0", transform: "translateY(24px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "0.8" },
+        /* Slow drift for the ambient hero glow. */
+        aurora: {
+          "0%, 100%": { transform: "translate3d(-4%, 0, 0) scale(1)", opacity: "0.55" },
+          "50%": { transform: "translate3d(4%, -3%, 0) scale(1.08)", opacity: "0.8" },
+        },
+        /* Sheen that sweeps across primary buttons on hover. */
+        sheen: {
+          from: { transform: "translateX(-120%)" },
+          to: { transform: "translateX(220%)" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-up": "fade-up 0.6s ease-out forwards",
+        "accordion-down": "accordion-down 0.25s ease-out",
+        "accordion-up": "accordion-up 0.25s ease-out",
+        "fade-up": "fade-up 0.7s cubic-bezier(0.16,1,0.3,1) forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
-        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
+        aurora: "aurora 18s ease-in-out infinite",
+        sheen: "sheen 0.9s ease-out",
+        marquee: "marquee 38s linear infinite",
       },
-      boxShadow: {
-        "soft": "0 4px 20px -4px hsl(220 40% 3% / 0.5)",
-        "glow": "0 0 40px -10px hsl(190 100% 50% / 0.3)",
-        "card": "0 8px 32px -8px hsl(220 40% 3% / 0.6)",
+      transitionTimingFunction: {
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate, typography],
 } satisfies Config;

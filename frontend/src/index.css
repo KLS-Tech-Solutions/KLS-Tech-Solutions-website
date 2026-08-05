@@ -1,123 +1,98 @@
+/**
+ * KLS Tech Solutions — Design System
+ *
+ * All colour tokens are derived directly from the company logo:
+ *   Navy   #04203F  hsl(212 88% 13%)   — primary brand mass, "KLS" + wordmark
+ *   Azure  #20B0E8  hsl(197 81% 52%)   — primary action / highlight
+ *   Silver #B8B8B8  hsl(0 0% 72%)      — neutral structure
+ *   Lime   #88C818  hsl(82 79% 44%)    — sparing accent, used exactly as in the mark
+ *
+ * The site is light-mode only. Every token lives in a single :root block —
+ * there is no .dark override and no theme switching anywhere in the app.
+ *
+ * Values are stored as raw HSL channels (not hsl() strings) so Tailwind can
+ * compose them with opacity modifiers, e.g. bg-primary/10.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 @layer base {
   :root {
-    /* Light Theme - Custom Palette */
-    /* Colors: #4A4A4A (dark gray), #CBCBCB (light gray), #FFFFE3 (cream), #6D8196 (blue-gray) */
-    --background: 60 100% 95%; /* #FFFFE3 - cream background */
-    --foreground: 0 0% 29%; /* #4A4A4A - dark gray text */
+    /* ---- Surfaces ---------------------------------------------------- */
+    --background: 210 40% 99%;
+    --foreground: 212 60% 12%;
 
-    /* Card surfaces - slightly darker cream */
-    --card: 60 100% 97%;
-    --card-foreground: 0 0% 29%; /* #4A4A4A */
+    --card: 0 0% 100%;
+    --card-foreground: 212 60% 12%;
 
-    --popover: 60 100% 97%;
-    --popover-foreground: 0 0% 29%; /* #4A4A4A */
+    --popover: 0 0% 100%;
+    --popover-foreground: 212 60% 12%;
 
-    /* Primary - Blue-gray accent */
-    --primary: 210 17% 51%; /* #6D8196 */
-    --primary-foreground: 60 100% 95%; /* #FFFFE3 - cream for contrast */
+    /* ---- Brand ------------------------------------------------------- */
+    /* Azure is deepened in light mode so text, icons and white button
+       labels all clear WCAG AA (4.5:1). At the logo's own lightness it
+       measures 4.29:1 on white — visibly fine, but a hair under the bar. */
+    --primary: 199 88% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Light gray */
-    --secondary: 0 0% 80%; /* #CBCBCB */
-    --secondary-foreground: 0 0% 29%; /* #4A4A4A */
+    --secondary: 210 32% 95%;
+    --secondary-foreground: 212 55% 18%;
 
-    /* Muted elements */
-    --muted: 0 0% 85%; /* Slightly lighter than #CBCBCB */
-    --muted-foreground: 0 0% 45%; /* Medium gray */
+    --accent: 210 30% 94%;
+    --accent-foreground: 212 60% 15%;
 
-    /* Accent - Blue-gray variant */
-    --accent: 210 20% 45%; /* Darker blue-gray */
-    --accent-foreground: 60 100% 95%; /* #FFFFE3 */
+    --muted: 210 28% 96%;
+    --muted-foreground: 212 16% 42%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 72% 46%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 80%; /* #CBCBCB */
-    --input: 0 0% 85%; /* Slightly lighter gray */
-    --ring: 210 17% 51%; /* #6D8196 */
+    /* Lime darkened well past the logo value — the mark's lime is a fill
+       colour on white, which is far too light to use as text. */
+    --success: 82 68% 29%;
+    --success-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* ---- Structure --------------------------------------------------- */
+    --border: 212 22% 89%;
+    --input: 212 22% 89%;
+    --ring: 199 88% 35%;
 
-    /* Custom design tokens - Light theme */
-    --gradient-primary: linear-gradient(135deg, hsl(210 17% 51%) 0%, hsl(210 20% 45%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(60 100% 95%) 0%, hsl(60 100% 97%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(60 100% 97%) 0%, hsl(0 0% 85%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(60 100% 95%) 0%, hsl(60 100% 97%) 50%, hsl(60 100% 95%) 100%);
-    
-    --shadow-soft: 0 4px 20px -4px hsl(0 0% 29% / 0.1);
-    --shadow-glow: 0 0 40px -10px hsl(210 17% 51% / 0.2);
-    --shadow-card: 0 8px 32px -8px hsl(0 0% 29% / 0.08);
+    --radius: 0.875rem;
 
-    /* Sidebar tokens - Light theme */
-    --sidebar-background: 60 100% 97%;
-    --sidebar-foreground: 0 0% 29%;
-    --sidebar-primary: 210 17% 51%; /* #6D8196 */
-    --sidebar-primary-foreground: 60 100% 95%; /* #FFFFE3 */
-    --sidebar-accent: 0 0% 80%; /* #CBCBCB */
-    --sidebar-accent-foreground: 0 0% 29%; /* #4A4A4A */
-    --sidebar-border: 0 0% 80%; /* #CBCBCB */
-    --sidebar-ring: 210 17% 51%; /* #6D8196 */
-  }
+    /* ---- Named brand values (theme-independent reference) ------------ */
+    --brand-navy: 212 88% 13%;
+    --brand-azure: 197 81% 52%;
+    --brand-silver: 0 0% 72%;
+    --brand-lime: 82 79% 44%;
 
-  .dark {
-    /* Dark Navy Core */
-    --background: 220 40% 7%;
-    --foreground: 210 20% 95%;
+    /* ---- Gradients --------------------------------------------------- */
+    --gradient-brand: linear-gradient(120deg, hsl(212 88% 18%) 0%, hsl(199 88% 33%) 55%, hsl(197 84% 42%) 100%);
+    --gradient-accent: linear-gradient(120deg, hsl(199 88% 35%) 0%, hsl(82 70% 33%) 140%);
+    --gradient-surface: linear-gradient(180deg, hsl(210 40% 99%) 0%, hsl(210 36% 97%) 100%);
+    --gradient-card: linear-gradient(155deg, hsl(0 0% 100%) 0%, hsl(210 34% 98%) 100%);
 
-    /* Card surfaces - slightly lighter navy */
-    --card: 220 35% 10%;
-    --card-foreground: 210 20% 95%;
+    /* ---- Elevation --------------------------------------------------- */
+    --shadow-xs: 0 1px 2px hsl(212 40% 20% / 0.05);
+    --shadow-sm: 0 2px 8px -2px hsl(212 40% 20% / 0.08);
+    --shadow-md: 0 8px 24px -8px hsl(212 40% 20% / 0.12), 0 2px 6px -2px hsl(212 40% 20% / 0.06);
+    --shadow-lg: 0 24px 56px -20px hsl(212 45% 18% / 0.18), 0 6px 16px -8px hsl(212 40% 20% / 0.08);
+    --shadow-glow: 0 12px 40px -12px hsl(199 88% 38% / 0.35);
 
-    --popover: 220 35% 10%;
-    --popover-foreground: 210 20% 95%;
+    /* ---- Glass ------------------------------------------------------- */
+    --glass-bg: 0 0% 100% / 0.72;
+    --glass-border: 212 30% 88% / 0.8;
 
-    /* Primary - Cyan accent */
-    --primary: 190 100% 50%;
-    --primary-foreground: 220 40% 7%;
-
-    /* Secondary - Muted navy */
-    --secondary: 220 30% 15%;
-    --secondary-foreground: 210 20% 90%;
-
-    /* Muted elements */
-    --muted: 220 25% 18%;
-    --muted-foreground: 215 15% 55%;
-
-    /* Accent - Subtle cyan tint */
-    --accent: 190 60% 20%;
-    --accent-foreground: 190 100% 70%;
-
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 25% 18%;
-    --input: 220 25% 15%;
-    --ring: 190 100% 50%;
-
-    /* Custom design tokens - Dark theme */
-    --gradient-primary: linear-gradient(135deg, hsl(190 100% 50%) 0%, hsl(200 100% 40%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(220 40% 7%) 0%, hsl(220 35% 4%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 35% 12%) 0%, hsl(220 35% 8%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(220 40% 7%) 0%, hsl(220 35% 10%) 50%, hsl(220 40% 7%) 100%);
-    
-    --shadow-soft: 0 4px 20px -4px hsl(220 40% 3% / 0.5);
-    --shadow-glow: 0 0 40px -10px hsl(190 100% 50% / 0.3);
-    --shadow-card: 0 8px 32px -8px hsl(220 40% 3% / 0.6);
-
-    /* Sidebar tokens - Dark theme */
-    --sidebar-background: 220 35% 8%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 190 100% 50%;
-    --sidebar-primary-foreground: 220 40% 7%;
-    --sidebar-accent: 220 30% 15%;
-    --sidebar-accent-foreground: 210 20% 90%;
-    --sidebar-border: 220 25% 18%;
-    --sidebar-ring: 190 100% 50%;
+    /* ---- Sidebar (shadcn primitive) ---------------------------------- */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 212 60% 12%;
+    --sidebar-primary: 199 88% 38%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 32% 95%;
+    --sidebar-accent-foreground: 212 55% 18%;
+    --sidebar-border: 212 22% 89%;
+    --sidebar-ring: 199 88% 35%;
   }
 }
 
@@ -128,76 +103,188 @@
 
   html {
     scroll-behavior: smooth;
+    /* Offset anchor targets so the fixed header never covers them. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+    /* Light mode only — prevents the browser from auto-darkening native
+       form controls and scrollbars when the OS is set to dark. */
+    color-scheme: light;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Consistent, visible keyboard focus across every interactive element. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background rounded-sm;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+  /* Headings default to tight tracking; sizes come from the type utilities. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-balance;
+  }
+
+  p {
+    @apply text-pretty;
   }
 }
 
 @layer components {
+  /* ---- Layout primitives -------------------------------------------- */
   .section-padding {
-    @apply px-6 py-20 md:px-8 lg:px-16 lg:py-28;
+    @apply px-5 py-20 sm:px-6 md:py-24 lg:px-8 lg:py-28;
   }
 
   .container-narrow {
-    @apply max-w-6xl mx-auto;
+    @apply mx-auto w-full max-w-6xl;
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-primary);
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl;
   }
 
-  .card-elevated {
-    @apply bg-card border border-border rounded-lg;
-    box-shadow: var(--shadow-card);
-  }
-
-  .glow-effect {
-    box-shadow: var(--shadow-glow);
-  }
-
+  /* ---- Typography scale (fluid) ------------------------------------- */
   .heading-display {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight;
+    font-size: clamp(2.5rem, 1.6rem + 4.2vw, 4.75rem);
+    @apply font-bold leading-[1.04] tracking-[-0.03em];
   }
 
   .heading-section {
-    @apply text-3xl md:text-4xl font-semibold tracking-tight;
+    font-size: clamp(1.875rem, 1.4rem + 2vw, 2.875rem);
+    @apply font-semibold leading-[1.12] tracking-[-0.025em];
+  }
+
+  .heading-card {
+    @apply text-lg font-semibold leading-snug tracking-[-0.01em] sm:text-xl;
   }
 
   .body-large {
-    @apply text-lg md:text-xl text-muted-foreground leading-relaxed;
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+    @apply leading-relaxed text-muted-foreground;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-primary sm:text-sm;
+  }
+
+  /* ---- Brand treatments ---------------------------------------------- */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-brand);
+  }
+
+  .glass {
+    background-color: hsl(var(--glass-bg));
+    border-color: hsl(var(--glass-border));
+    @apply backdrop-blur-xl backdrop-saturate-150;
+  }
+
+  .card-elevated {
+    @apply rounded-2xl border border-border bg-card;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Gradient hairline border, used on featured cards. */
+  .border-gradient {
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-brand);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Faint engineering grid used behind hero sections. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--foreground) / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
   }
 }
 
 @layer utilities {
-  .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
+  /* ---- Scroll-reveal ------------------------------------------------- */
+  /* Elements start hidden and are revealed by useScrollReveal setting
+     [data-revealed="true"]. Kept in CSS so there is no layout thrash. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+  [data-reveal="fade"] {
+    transform: none;
   }
 
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  [data-reveal="scale"] {
+    transform: scale(0.96);
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  [data-reveal="left"] {
+    transform: translateX(-24px);
+  }
+
+  [data-reveal="right"] {
+    transform: translateX(24px);
+  }
+
+  [data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Respect the user's motion preference everywhere, unconditionally. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

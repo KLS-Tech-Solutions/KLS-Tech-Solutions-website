@@ -1,101 +1,109 @@
+import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
-import { contactInfo, contactLinks } from "@/config/contact";
 
+import Logo from "@/components/common/Logo";
+import { company, contactInfo, contactLinks, footerNav } from "@/config/site";
+
+/**
+ * Site footer.
+ *
+ * Contact rows carry real icons and live links (tel:, mailto:) instead of the
+ * previous plain text list, and the brand column uses the shared Logo rather
+ * than the 128px JPEG-with-baked-background that was here before.
+ */
 const Footer = () => {
+  const year = new Date().getFullYear();
+
+  const contactRows = [
+    { icon: Phone, label: contactInfo.phone, href: contactLinks.phone, external: false },
+    { icon: Mail, label: contactInfo.email, href: contactLinks.email, external: false },
+    {
+      icon: Instagram,
+      label: `@${contactInfo.instagram}`,
+      href: contactLinks.instagram,
+      external: true,
+    },
+  ];
+
   return (
     <footer className="border-t border-border bg-card">
-      <div className="container-narrow mx-auto px-6 py-12 lg:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <img 
-                src="/kls-logo-footer.jpg" 
-                alt="KLS Solutions Footer Logo" 
-                className="h-32 w-auto"
-              />
-              <span className="text-lg font-semibold text-foreground">
-                KLS Tech Solutions
-              </span>
-            </Link>
-            <p className="max-w-md text-sm text-muted-foreground leading-relaxed">
-              Engineering intelligent systems for smart living. We design and develop 
-              IoT solutions with AI-driven capabilities and enterprise-grade security.
+      <div className="container-wide px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          {/* ---- Brand ---- */}
+          <div className="lg:col-span-4">
+            <Logo size="lg" />
+
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              {company.shortDescription} Based in {contactInfo.addressLocality},{" "}
+              {contactInfo.addressRegion}.
+            </p>
+
+            <p className="mt-5 flex items-start gap-2.5 text-sm text-muted-foreground">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+              <span>{contactInfo.location}</span>
             </p>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">Navigation</h4>
+          {/* ---- Link groups ---- */}
+          <div className="grid gap-8 sm:grid-cols-3 lg:col-span-5 lg:gap-6">
+            {footerNav.map((group) => (
+              <nav key={group.title} aria-labelledby={`footer-${group.title.toLowerCase()}`}>
+                <h2
+                  id={`footer-${group.title.toLowerCase()}`}
+                  className="mb-4 text-sm font-semibold text-foreground"
+                >
+                  {group.title}
+                </h2>
+                <ul className="space-y-3">
+                  {group.items.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        to={item.href}
+                        className="rounded text-sm text-muted-foreground transition-colors hover:text-primary"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
+
+          {/* ---- Contact ---- */}
+          <div className="lg:col-span-3">
+            <h2 className="mb-4 text-sm font-semibold text-foreground">Get in Touch</h2>
+
             <ul className="space-y-3">
-              {[
-                { href: "/", label: "Home" },
-                { href: "/products", label: "Products" },
-                { href: "/solutions", label: "Solutions" },
-                { href: "/about", label: "About" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+              {contactRows.map((row) => (
+                <li key={row.href}>
+                  <a
+                    href={row.href}
+                    {...(row.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="group flex items-start gap-2.5 rounded text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
-                    {link.label}
-                  </Link>
+                    <row.icon
+                      className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:scale-110"
+                      aria-hidden="true"
+                    />
+                    <span className="break-all">{row.label}</span>
+                  </a>
                 </li>
               ))}
             </ul>
-          </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">Contact</h4>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <Link to="/contact" className="transition-colors hover:text-primary">
-                  Get in Touch
-                </Link>
-              </li>
-              <li>
-                <a 
-                  href={contactLinks.phone} 
-                  className="transition-colors hover:text-primary"
-                >
-                  {contactInfo.phone}
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={contactLinks.email} 
-                  className="transition-colors hover:text-primary"
-                >
-                  {contactInfo.email}
-                </a>
-              </li>
-              <li>
-                <a 
-                  href={contactLinks.instagram} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-primary"
-                >
-                  @{contactInfo.instagram}
-                </a>
-              </li>
-              <li className="text-muted-foreground">
-                {contactInfo.location}
-              </li>
-            </ul>
+            <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+              We typically respond within {contactInfo.responseTime}.
+            </p>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
+        {/* ---- Bottom bar ---- */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} KLS Tech Solutions. All rights reserved.
+            © {year} {company.name}. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Engineered with precision.
-          </p>
+          <p className="text-xs text-muted-foreground">Engineered with precision.</p>
         </div>
       </div>
     </footer>
