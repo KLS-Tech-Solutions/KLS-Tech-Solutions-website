@@ -21,6 +21,11 @@ interface LogoProps {
   markOnly?: boolean;
   /** Render as a plain element instead of a link. */
   asLink?: boolean;
+  /**
+   * Invert the mark to solid white for dark surfaces (the navy footer). The
+   * artwork is navy-on-transparent, so it would otherwise vanish.
+   */
+  onDark?: boolean;
   className?: string;
 }
 
@@ -34,7 +39,13 @@ interface LogoProps {
  * The site is light-mode only, so the logo's own navy-on-white artwork is
  * used directly with no variant swapping.
  */
-const Logo = ({ size = "md", markOnly = false, asLink = true, className }: LogoProps) => {
+const Logo = ({
+  size = "md",
+  markOnly = false,
+  asLink = true,
+  onDark = false,
+  className,
+}: LogoProps) => {
   const { h, text } = sizeMap[size];
   const w = Math.round(h * MARK_RATIO);
 
@@ -50,12 +61,18 @@ const Logo = ({ size = "md", markOnly = false, asLink = true, className }: LogoP
         height={h}
         loading="eager"
         decoding="async"
-        className="block shrink-0 object-contain"
+        className={cn("block shrink-0 object-contain", onDark && "brightness-0 invert")}
         style={{ height: h, width: w }}
       />
 
       {!markOnly && (
-        <span className={cn("font-semibold tracking-tight text-foreground", text)}>
+        <span
+          className={cn(
+            "font-semibold tracking-tight",
+            onDark ? "text-white" : "text-foreground",
+            text,
+          )}
+        >
           {company.name}
         </span>
       )}

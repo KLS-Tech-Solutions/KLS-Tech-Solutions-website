@@ -15,7 +15,13 @@ import JsonLd from "@/components/seo/JsonLd";
 import Seo from "@/components/seo/Seo";
 import { Button } from "@/components/ui/button";
 import { pageMeta } from "@/config/seo";
-import { capabilities, industries, processSteps, servicesFaqs } from "@/content/services";
+import {
+  capabilities,
+  coreServices,
+  industries,
+  processSteps,
+  servicesFaqs,
+} from "@/content/services";
 import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 
 /**
@@ -31,6 +37,15 @@ const Solutions = () => (
     <JsonLd
       data={[
         breadcrumbSchema([{ name: "Services", path: "/solutions" }]),
+        // One Service node per core service, so search and answer engines can
+        // see the SaaS, AI and Academy offerings alongside the IoT work.
+        ...coreServices.map((service) =>
+          serviceSchema({
+            name: service.title,
+            description: service.description,
+            offerings: service.bullets ? [...service.bullets] : undefined,
+          }),
+        ),
         // One Service node per industry, each describing what we actually
         // deliver for that sector.
         ...industries.map((industry) =>
@@ -106,8 +121,34 @@ const Solutions = () => (
       </div>
     </Section>
 
+    {/* ---- Services ---------------------------------------------------- */}
+    {/* The same four services shown on the home page, rendered from the same
+        source so the two pages cannot describe them differently. */}
+    <Section id="services" bordered>
+      <SectionHeader
+        label="What We Do"
+        title="Four services, one engineering team"
+        description="IoT products, enterprise SaaS and AI platforms, industry-focused learning through KLS Academy, and the security architecture underpinning all three."
+        centered
+      />
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {coreServices.map((service, index) => (
+          <Reveal key={service.id} delay={index * 90} className="h-full">
+            <FeatureCard
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              bullets={service.bullets}
+              featured={index === 0}
+            />
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+
     {/* ---- Industries -------------------------------------------------- */}
-    <Section id="industries" bordered>
+    <Section id="industries" tone="muted" bordered>
       <SectionHeader
         label="Industries We Serve"
         title="Tailored for your sector"

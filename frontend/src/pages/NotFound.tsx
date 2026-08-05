@@ -6,7 +6,16 @@ import Layout from "@/components/layout/Layout";
 import Seo from "@/components/seo/Seo";
 import { Button } from "@/components/ui/button";
 import { pageMeta } from "@/config/seo";
-import { mainNav } from "@/config/site";
+import { isExternalNav, mainNav, type NavItem } from "@/config/site";
+
+/** Suggested destinations: the main nav plus Contact, which lives in the header CTA. */
+const suggestions: NavItem[] = [
+  ...mainNav,
+  { href: "/contact", label: "Contact", description: "Get in touch" },
+];
+
+const cardClass =
+  "flex h-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card";
 
 /**
  * 404 page.
@@ -45,28 +54,35 @@ const NotFound = () => (
         <Reveal delay={120}>
           <nav aria-label="Suggested pages" className="mx-auto mt-10 max-w-2xl">
             <ul className="grid gap-3 sm:grid-cols-2">
-              {[...mainNav, { href: "/contact", label: "Contact", description: "Get in touch" }].map(
-                (item) => (
-                  <li key={item.href}>
-                    <Link
-                      to={item.href}
-                      className="flex h-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card"
-                    >
-                      <Search className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                      <span className="min-w-0">
-                        <span className="block text-sm font-medium text-foreground">
-                          {item.label}
+              {suggestions.map((item) => {
+                const label = (
+                  <>
+                    <Search className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-foreground">{item.label}</span>
+                      {item.description && (
+                        <span className="block truncate text-xs text-muted-foreground">
+                          {item.description}
                         </span>
-                        {item.description && (
-                          <span className="block truncate text-xs text-muted-foreground">
-                            {item.description}
-                          </span>
-                        )}
-                      </span>
-                    </Link>
+                      )}
+                    </span>
+                  </>
+                );
+
+                return (
+                  <li key={item.href}>
+                    {isExternalNav(item) ? (
+                      <a href={item.href} className={cardClass}>
+                        {label}
+                      </a>
+                    ) : (
+                      <Link to={item.href} className={cardClass}>
+                        {label}
+                      </Link>
+                    )}
                   </li>
-                ),
-              )}
+                );
+              })}
             </ul>
           </nav>
         </Reveal>

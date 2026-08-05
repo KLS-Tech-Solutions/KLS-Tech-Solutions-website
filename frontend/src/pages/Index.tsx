@@ -16,9 +16,9 @@ import Seo from "@/components/seo/Seo";
 import { Button } from "@/components/ui/button";
 import { pageMeta } from "@/config/seo";
 import { company } from "@/config/site";
-import { expertiseAreas, homeFaqs, pillars, solutionAreas, whyChooseUs } from "@/content/home";
+import { expertiseAreas, homeFaqs, solutionAreas, whyChooseUs } from "@/content/home";
 import { smartWaterMonitor } from "@/content/products";
-import { industries, processSteps } from "@/content/services";
+import { coreServices, industries, processSteps } from "@/content/services";
 
 const Index = () => (
   <Layout>
@@ -64,18 +64,19 @@ const Index = () => (
     <Section id="services">
       <SectionHeader
         label="What We Do"
-        title="Engineering excellence across three pillars"
-        description="We bring together IoT hardware, AI intelligence, and robust security architecture to create systems that last."
+        title="Engineering excellence across four pillars"
+        description="We bring together IoT hardware, enterprise SaaS and AI, industry-focused learning, and robust security architecture to create systems that last."
         centered
       />
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {pillars.map((pillar, index) => (
-          <Reveal key={pillar.id} delay={index * 90} className="h-full">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {coreServices.map((service, index) => (
+          <Reveal key={service.id} delay={index * 90} className="h-full">
             <FeatureCard
-              icon={pillar.icon}
-              title={pillar.title}
-              description={pillar.description}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              bullets={service.bullets}
               featured={index === 0}
             />
           </Reveal>

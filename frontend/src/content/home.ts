@@ -7,17 +7,7 @@
  * because none of those are verified facts about the company today.
  */
 
-import {
-  Brain,
-  Cpu,
-  Factory,
-  Lock,
-  Radio,
-  Settings,
-  Shield,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Cpu, Factory, Lock, Radio, Settings, Shield, Wrench, type LucideIcon } from "lucide-react";
 
 export interface HomeFeature {
   id: string;
@@ -25,31 +15,6 @@ export interface HomeFeature {
   title: string;
   description: string;
 }
-
-/** The three engineering pillars, as presented on the previous home page. */
-export const pillars: readonly HomeFeature[] = [
-  {
-    id: "iot-product-engineering",
-    icon: Cpu,
-    title: "IoT Product Engineering",
-    description:
-      "Custom hardware and firmware development for connected devices. From sensors to gateways, designed for reliability and scale.",
-  },
-  {
-    id: "ai-driven-intelligence",
-    icon: Brain,
-    title: "AI-Driven Intelligence",
-    description:
-      "Machine learning models and intelligent automation that turn raw data into actionable insights and autonomous decisions.",
-  },
-  {
-    id: "secure-system-architecture",
-    icon: Shield,
-    title: "Secure System Architecture",
-    description:
-      "End-to-end security built in from day one. Encrypted communications, secure boot, and compliance-ready infrastructure.",
-  },
-] as const;
 
 /** Custom solution areas highlighted on the home page. */
 export const solutionAreas: readonly HomeFeature[] = [
@@ -141,12 +106,12 @@ export const homeFaqs = [
   {
     question: "What is KLS Tech Solutions?",
     answer:
-      "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems powered by AI, with enterprise-grade security built in from day one — covering hardware, firmware, cloud infrastructure and security architecture from concept through to deployment.",
+      "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — covering hardware, firmware, cloud infrastructure and security architecture from concept through to deployment. Through KLS Academy we also run verified virtual internship programs for students.",
   },
   {
     question: "What services does KLS Tech Solutions offer?",
     answer:
-      "We offer three core areas of engineering. IoT product engineering covers custom hardware and firmware development for connected devices, from sensors to gateways. AI-driven intelligence covers machine learning models and intelligent automation that turn raw data into actionable insights. Secure system architecture covers encrypted communications, secure boot and compliance-ready infrastructure. We deliver these as custom solutions for industrial, residential and commercial clients.",
+      "We offer four core areas. IoT product engineering covers custom hardware, embedded systems and firmware for connected devices, from sensors to gateways. Enterprise SaaS and AI solutions cover cloud-native multi-tenant platforms, workflow automation, REST APIs and applications powered by Generative AI and Agentic AI. Learning and verified virtual internships are delivered through KLS Academy, with real-world projects, mentor reviews and QR-verified certificates. Secure system architecture covers encrypted communications, secure boot and compliance-ready infrastructure. We deliver these as custom solutions for industrial, residential, commercial and enterprise clients.",
   },
   {
     question: "Where is KLS Tech Solutions located?",

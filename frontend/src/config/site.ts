@@ -19,9 +19,9 @@ export const company = {
    * so answer engines and AI assistants can quote it accurately.
    */
   description:
-    "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems powered by AI, with enterprise-grade security built in from day one — from concept through to deployment.",
+    "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — from concept through to deployment. Through KLS Academy we also run verified virtual internship programs for students.",
   shortDescription:
-    "Engineering intelligent IoT systems with AI-driven capabilities and enterprise-grade security.",
+    "Engineering intelligent IoT systems, enterprise SaaS and AI solutions with enterprise-grade security — plus verified virtual internships through KLS Academy.",
   foundingLocation: "Bengaluru, Karnataka, India",
   /** Current company stage. Stated plainly rather than dressed up. */
   stage: "Research & Development",
@@ -60,12 +60,30 @@ export const assets = {
   productImageFallback: "/model2.jpeg",
 } as const;
 
+/**
+ * KLS Academy — the virtual internship and learning platform.
+ *
+ * It lives on its own subdomain rather than a route in this app, so every
+ * link to it is a plain anchor. It opens in the same tab: it is our own
+ * property, not a third-party destination.
+ */
+export const ACADEMY_URL = "https://academy.klstechsolutions.in";
+
 export interface NavItem {
   href: string;
   label: string;
   /** Short description surfaced in the mobile menu for extra context. */
   description?: string;
+  /**
+   * True when href points outside this SPA. External items render as <a>
+   * rather than a router <Link>, which would otherwise treat the absolute
+   * URL as a relative path.
+   */
+  external?: boolean;
 }
+
+/** Single predicate so every consumer decides <a> vs <Link> the same way. */
+export const isExternalNav = (item: NavItem) => item.external === true;
 
 /**
  * Primary navigation.
@@ -75,9 +93,15 @@ export interface NavItem {
  * /services redirects here — see App.tsx.
  */
 export const mainNav: NavItem[] = [
-  { href: "/", label: "Home", description: "IoT engineering, AI and secure systems" },
-  { href: "/solutions", label: "Services", description: "Custom IoT and automation engineering" },
+  { href: "/", label: "Home", description: "IoT engineering, SaaS, AI and secure systems" },
+  { href: "/solutions", label: "Services", description: "Custom IoT, SaaS and AI engineering" },
   { href: "/products", label: "Products", description: "Smart Water Monitor and R&D pipeline" },
+  {
+    href: ACADEMY_URL,
+    label: "Academy",
+    description: "Verified virtual internships and learning",
+    external: true,
+  },
   { href: "/about", label: "About", description: "Our mission, values and team" },
 ];
 
@@ -96,6 +120,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     items: [
       { href: "/solutions", label: "Services & Solutions" },
       { href: "/products", label: "Products" },
+      { href: ACADEMY_URL, label: "Academy", external: true },
       { href: "/solutions#capabilities", label: "Engineering Capabilities" },
       { href: "/solutions#process", label: "Our Process" },
     ],
@@ -110,7 +135,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
 ];
 
 /**
- * The three engineering pillars the company is built on. Referenced by the
+ * The four engineering pillars the company is built on. Referenced by the
  * home page, the services page and the Organization structured data.
  */
 export const corePillars = [
@@ -118,13 +143,19 @@ export const corePillars = [
     id: "iot-product-engineering",
     title: "IoT Product Engineering",
     description:
-      "Custom hardware and firmware development for connected devices. From sensors to gateways, designed for reliability and scale.",
+      "Intelligent IoT hardware and embedded systems for industrial, commercial and consumer applications — custom PCB design, firmware, cloud connectivity and device management.",
   },
   {
-    id: "ai-driven-intelligence",
-    title: "AI-Driven Intelligence",
+    id: "enterprise-saas-ai",
+    title: "Enterprise SaaS & AI Solutions",
     description:
-      "Machine learning models and intelligent automation that turn raw data into actionable insights and autonomous decisions.",
+      "Secure, scalable cloud-native SaaS platforms and AI-powered business applications: multi-tenant architecture, workflow automation, REST APIs and Generative and Agentic AI integrations.",
+  },
+  {
+    id: "learning-virtual-internships",
+    title: "Learning & Verified Virtual Internships",
+    description:
+      "KLS Academy runs industry-focused virtual internship programs with real-world projects, mentor reviews and QR-verified digital certificates.",
   },
   {
     id: "secure-system-architecture",

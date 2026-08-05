@@ -13,14 +13,91 @@
 
 import {
   Building2,
+  Cloud,
   Cpu,
   Factory,
+  GraduationCap,
   Home,
   Settings,
   Shield,
   Workflow,
   type LucideIcon,
 } from "lucide-react";
+
+export interface CoreService {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  /**
+   * One-line version of the description, used where space is tight (the hero
+   * pillar stack). Falls back to `description` when absent.
+   */
+  summary?: string;
+  /** Key highlights, rendered as card bullets. */
+  bullets?: readonly string[];
+}
+
+/**
+ * The four services the company offers.
+ *
+ * This is the single source for the home hero pillar stack, the home "What We
+ * Do" grid and the Services page overview, so those three can never drift
+ * apart. Anything service-specific (industries, capabilities, process) stays
+ * below.
+ */
+export const coreServices: readonly CoreService[] = [
+  {
+    id: "iot-product-engineering",
+    icon: Cpu,
+    title: "IoT Product Engineering",
+    summary:
+      "Custom hardware and firmware for connected devices — from sensors to gateways, designed for reliability and scale.",
+    description:
+      "Design and develop intelligent IoT hardware and embedded systems tailored for industrial, commercial, and consumer applications. From custom PCB design and firmware development to cloud connectivity and device management, we build secure, scalable, and production-ready connected solutions.",
+  },
+  {
+    id: "enterprise-saas-ai",
+    icon: Cloud,
+    title: "Enterprise SaaS & AI Solutions",
+    summary:
+      "Cloud-native SaaS platforms and AI-powered business applications, built for startups and enterprises.",
+    description:
+      "We build secure, scalable, cloud-native SaaS platforms and AI-powered business applications for startups and enterprises. Our expertise includes multi-tenant SaaS architecture, workflow automation, enterprise dashboards, REST APIs, AI integrations, and intelligent business solutions powered by Generative AI and Agentic AI.",
+    bullets: [
+      "Enterprise SaaS Platforms",
+      "Multi-tenant Architecture",
+      "AI Business Automation",
+      "FastAPI & Next.js Development",
+      "Cloud Deployment",
+      "API Integrations",
+    ],
+  },
+  {
+    id: "learning-virtual-internships",
+    icon: GraduationCap,
+    title: "Learning & Verified Virtual Internships",
+    summary:
+      "KLS Academy runs industry-focused virtual internships with real projects and QR-verified certificates.",
+    description:
+      "KLS Academy provides industry-focused virtual internship programs designed to help students gain practical experience through real-world projects. Every internship includes structured learning, GitHub-based project submissions, mentor reviews, LinkedIn engagement, and QR-verified digital certificates to showcase authentic industry experience.",
+    bullets: [
+      "Full Stack Python",
+      "Web Development",
+      "Cyber Security",
+      "Generative AI",
+      "Agentic AI",
+      "QR Verified Certificates",
+    ],
+  },
+  {
+    id: "secure-system-architecture",
+    icon: Shield,
+    title: "Secure System Architecture",
+    description:
+      "End-to-end security built in from day one. Encrypted communications, secure boot, and compliance-ready infrastructure.",
+  },
+] as const;
 
 export interface Industry {
   id: string;

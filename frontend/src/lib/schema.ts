@@ -8,7 +8,7 @@
  * both a trust problem and a Google structured-data violation.
  */
 
-import { assets, company, contactInfo, contactLinks, SITE_URL } from "@/config/site";
+import { ACADEMY_URL, assets, company, contactInfo, contactLinks, SITE_URL } from "@/config/site";
 
 type Schema = Record<string, unknown>;
 
@@ -41,7 +41,7 @@ export const organizationSchema = (): Schema => ({
     addressRegion: contactInfo.addressRegion,
     addressCountry: contactInfo.addressCountry,
   },
-  sameAs: [contactLinks.instagram],
+  sameAs: [contactLinks.instagram, ACADEMY_URL],
   knowsAbout: [
     "Internet of Things",
     "Embedded systems engineering",
@@ -50,6 +50,16 @@ export const organizationSchema = (): Schema => ({
     "Industrial automation",
     "Home automation",
     "IoT security architecture",
+    "Enterprise SaaS development",
+    "Multi-tenant SaaS architecture",
+    "AI solutions",
+    "Generative AI",
+    "Agentic AI",
+    "FastAPI development",
+    "Next.js development",
+    "Virtual internship programs",
+    "Full stack Python",
+    "Cyber security",
   ],
   contactPoint: {
     "@type": "ContactPoint",
