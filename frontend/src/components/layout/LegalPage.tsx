@@ -45,6 +45,7 @@ const LegalPage = ({ meta, title, intro, lastUpdated, sections, notice }: LegalP
       title={title}
       description={intro}
       breadcrumbs={[{ name: title, path: meta.path }]}
+      visual="legal"
     />
 
     <Section>

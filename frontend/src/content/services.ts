@@ -39,12 +39,21 @@ export interface CoreService {
 }
 
 /**
- * The four services the company offers.
+ * The three services the company offers.
  *
  * This is the single source for the home hero pillar stack, the home "What We
- * Do" grid and the Services page overview, so those three can never drift
- * apart. Anything service-specific (industries, capabilities, process) stays
- * below.
+ * Do" grid and the Services page overview, so those three surfaces can never
+ * drift apart. Anything service-specific (industries, capabilities, process)
+ * stays below.
+ *
+ * Secure system architecture used to sit here as a fourth card, but it isn't a
+ * service you buy on its own — it's how all three are built. It now lives in
+ * `capabilities` (as "Security Architecture") and is stated as a standing
+ * commitment on the Services page, so nothing about it was lost.
+ *
+ * Every entry carries exactly six bullets. That keeps the three cards the same
+ * height at every breakpoint without needing a fixed height, which would clip
+ * on small screens.
  */
 export const coreServices: readonly CoreService[] = [
   {
@@ -55,6 +64,14 @@ export const coreServices: readonly CoreService[] = [
       "Custom hardware and firmware for connected devices — from sensors to gateways, designed for reliability and scale.",
     description:
       "Design and develop intelligent IoT hardware and embedded systems tailored for industrial, commercial, and consumer applications. From custom PCB design and firmware development to cloud connectivity and device management, we build secure, scalable, and production-ready connected solutions.",
+    bullets: [
+      "Custom PCB Design",
+      "Embedded Firmware",
+      "Sensor Integration",
+      "Device Management",
+      "Cloud Connectivity",
+      "Production-Ready Builds",
+    ],
   },
   {
     id: "enterprise-saas-ai",
@@ -78,24 +95,17 @@ export const coreServices: readonly CoreService[] = [
     icon: GraduationCap,
     title: "Learning & Verified Virtual Internships",
     summary:
-      "KLS Academy runs industry-focused virtual internships with real projects and QR-verified certificates.",
+      "KLS Academy runs open-source virtual internships with real projects and QR-verified certificates.",
     description:
-      "KLS Academy provides industry-focused virtual internship programs designed to help students gain practical experience through real-world projects. Every internship includes structured learning, GitHub-based project submissions, mentor reviews, LinkedIn engagement, and QR-verified digital certificates to showcase authentic industry experience.",
+      "KLS Academy provides industry-focused virtual internship programs built around open-source work, designed to help students gain practical experience through real-world projects. Interns contribute to public repositories they can point an employer at, with structured learning, GitHub-based submissions, mentor reviews, LinkedIn engagement, and QR-verified digital certificates that evidence authentic industry experience.",
     bullets: [
+      "Open Source Contributions",
       "Full Stack Python",
       "Web Development",
       "Cyber Security",
-      "Generative AI",
-      "Agentic AI",
+      "Generative AI & Agentic AI",
       "QR Verified Certificates",
     ],
-  },
-  {
-    id: "secure-system-architecture",
-    icon: Shield,
-    title: "Secure System Architecture",
-    description:
-      "End-to-end security built in from day one. Encrypted communications, secure boot, and compliance-ready infrastructure.",
   },
 ] as const;
 
@@ -229,7 +239,12 @@ export const servicesFaqs = [
   {
     question: "How is security handled in the systems you build?",
     answer:
-      "Security is designed in from the first architecture decision rather than added before launch. In practice that means end-to-end encryption, certificate management, secure provisioning and compliance engineering as standard parts of the build — alongside secure boot and encrypted communications at the device level. We treat security as a foundation because retrofitting it into a deployed fleet of devices is significantly harder and less effective.",
+      "Security is designed in from the first architecture decision rather than added before launch, and it applies to all three services rather than being sold separately. In practice that means end-to-end encryption, certificate management, secure provisioning and compliance engineering as standard parts of the build — alongside secure boot and encrypted communications at the device level. We treat security as a foundation because retrofitting it into a deployed fleet of devices is significantly harder and less effective.",
+  },
+  {
+    question: "What is a verified virtual internship at KLS Academy?",
+    answer:
+      "A verified virtual internship at KLS Academy is a remote, industry-focused program built around open-source work. Interns contribute to public repositories on real projects rather than throwaway exercises, so the work stays visible to future employers. Each program includes structured learning, GitHub-based project submissions, mentor reviews and LinkedIn engagement, and finishes with a QR-verified digital certificate that anyone can scan to confirm the experience is genuine. Tracks cover Full Stack Python, Web Development, Cyber Security, Generative AI and Agentic AI.",
   },
   {
     question: "Where is KLS Tech Solutions based, and who do you work with?",

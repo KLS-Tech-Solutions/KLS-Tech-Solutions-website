@@ -126,7 +126,10 @@ const Navbar = () => {
                     {navLink(
                       item,
                       cn(
-                        "relative inline-flex items-center rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-300 ease-out-expo",
+                        // Padding tightens at lg and relaxes at xl: with five
+                        // nav items plus the logo and CTA, the pill would
+                        // otherwise crowd on a 1024px screen.
+                        "relative inline-flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all duration-300 ease-out-expo xl:px-3.5",
                         active
                           ? "bg-accent/70 text-foreground"
                           : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
@@ -137,7 +140,7 @@ const Navbar = () => {
                         {active && (
                           <span
                             aria-hidden="true"
-                            className="absolute inset-x-3.5 bottom-1 h-0.5 rounded-full bg-gradient-brand"
+                            className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-gradient-brand xl:inset-x-3.5"
                           />
                         )}
                       </>,
@@ -148,8 +151,13 @@ const Navbar = () => {
             </ul>
 
             {/* ---- Desktop actions ---- */}
-            <div className="hidden items-center lg:flex">
-              <Button asChild variant="hero" size={scrolled ? "sm" : "default"} className="rounded-full">
+            <div className="hidden shrink-0 items-center lg:flex">
+              <Button
+                asChild
+                variant="hero"
+                size={scrolled ? "sm" : "default"}
+                className="whitespace-nowrap rounded-full"
+              >
                 <Link to="/contact">
                   Contact Us
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />

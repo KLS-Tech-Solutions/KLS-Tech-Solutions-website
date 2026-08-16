@@ -25,6 +25,7 @@ const About = () => (
       title="Engineering-first, by design"
       description="We're an engineering-first company focused on building intelligent systems that solve real problems. No hype, no buzzwords — just solid engineering and practical innovation."
       breadcrumbs={[{ name: "About", path: "/about" }]}
+      visual="about"
     />
 
     {/* ---- Entity statement -------------------------------------------- */}

@@ -17,7 +17,9 @@ import { company, contactInfo, contactLinks, footerNav, isExternalNav } from "@/
  * the mark itself.
  *
  * Contact rows carry real icons and live links (tel:, mailto:), and the brand
- * column uses the shared Logo in its onDark variant.
+ * column uses the shared Logo in its onDark variant — which now shows the same
+ * full-colour mark as the header, on a white plate, rather than the flattened
+ * white silhouette it used before.
  */
 const Footer = () => {
   const year = new Date().getFullYear();

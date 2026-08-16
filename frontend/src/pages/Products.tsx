@@ -49,6 +49,7 @@ const Products = () => (
       title="Intelligent IoT products, engineered for the real world"
       description="Designed for reliability, security, and real-world impact. Our product line is currently in the research and development phase."
       breadcrumbs={[{ name: "Products", path: "/products" }]}
+      visual="products"
     />
 
     {/* ---- Smart Water Monitor ----------------------------------------- */}

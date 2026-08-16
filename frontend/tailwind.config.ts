@@ -132,6 +132,39 @@ export default {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
         },
+
+        /* ---- Hero visual primitives ---- */
+        /* Gentle vertical drift for floating panels. */
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        /* Breathing opacity for "live" indicators. */
+        "pulse-soft": {
+          "0%, 100%": { opacity: "0.35" },
+          "50%": { opacity: "1" },
+        },
+        /* Expanding ring behind a status dot. */
+        "ping-ring": {
+          "0%": { transform: "scale(0.85)", opacity: "0.6" },
+          "100%": { transform: "scale(2.2)", opacity: "0" },
+        },
+        /* Draws an SVG path on, then holds. Pair with stroke-dasharray. */
+        "draw-line": {
+          from: { strokeDashoffset: "1000" },
+          to: { strokeDashoffset: "0" },
+        },
+        /* Pulse travelling down the service spine. */
+        "travel-y": {
+          "0%": { transform: "translateY(0)", opacity: "0" },
+          "10%, 90%": { opacity: "1" },
+          "100%": { transform: "translateY(var(--travel-distance, 180px))", opacity: "0" },
+        },
+        /* Bars growing from the baseline. */
+        "rise-bar": {
+          from: { transform: "scaleY(0.15)" },
+          to: { transform: "scaleY(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.25s ease-out",
@@ -141,6 +174,15 @@ export default {
         aurora: "aurora 18s ease-in-out infinite",
         sheen: "sheen 0.9s ease-out",
         marquee: "marquee 38s linear infinite",
+
+        /* Hero visuals. Long durations on purpose — these sit beside body
+           copy, so anything faster competes with reading. */
+        float: "float 7s ease-in-out infinite",
+        "pulse-soft": "pulse-soft 2.8s ease-in-out infinite",
+        "ping-ring": "ping-ring 2.4s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "draw-line": "draw-line 2.4s ease-out forwards",
+        "travel-y": "travel-y 4.5s ease-in-out infinite",
+        "rise-bar": "rise-bar 1.1s cubic-bezier(0.16,1,0.3,1) forwards",
       },
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",

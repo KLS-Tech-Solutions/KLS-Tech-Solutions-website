@@ -22,8 +22,8 @@ interface LogoProps {
   /** Render as a plain element instead of a link. */
   asLink?: boolean;
   /**
-   * Invert the mark to solid white for dark surfaces (the navy footer). The
-   * artwork is navy-on-transparent, so it would otherwise vanish.
+   * Set on dark surfaces (the navy footer). The mark keeps its full colour
+   * and is placed on a white plate; only the wordmark switches to white.
    */
   onDark?: boolean;
   className?: string;
@@ -36,8 +36,11 @@ interface LogoProps {
  * `filter: drop-shadow(...)` style and rendered the mark at h-32 — which is
  * what pushed the logo out of the 64px header.
  *
- * The site is light-mode only, so the logo's own navy-on-white artwork is
- * used directly with no variant swapping.
+ * On dark surfaces the mark is NOT recoloured. It previously used
+ * `brightness-0 invert`, which flattened it to a white silhouette and threw
+ * away the azure, silver and lime that make it recognisable. Instead the
+ * artwork sits on a rounded white plate, so the header and footer show the
+ * identical logo — the same treatment already used in the OG share image.
  */
 const Logo = ({
   size = "md",
@@ -49,21 +52,36 @@ const Logo = ({
   const { h, text } = sizeMap[size];
   const w = Math.round(h * MARK_RATIO);
 
+  const mark = (
+    <img
+      src={assets.mark}
+      // Decorative: the adjacent wordmark already names the company, and the
+      // link itself carries an aria-label, so alt text here would be noise.
+      alt=""
+      aria-hidden="true"
+      width={w}
+      height={h}
+      loading="eager"
+      decoding="async"
+      className="block shrink-0 object-contain"
+      style={{ height: h, width: w }}
+    />
+  );
+
   const content = (
     <>
-      <img
-        src={assets.mark}
-        // Decorative: the adjacent wordmark already names the company, and the
-        // link itself carries an aria-label, so alt text here would be noise.
-        alt=""
-        aria-hidden="true"
-        width={w}
-        height={h}
-        loading="eager"
-        decoding="async"
-        className={cn("block shrink-0 object-contain", onDark && "brightness-0 invert")}
-        style={{ height: h, width: w }}
-      />
+      {onDark ? (
+        // Plate padding scales with the mark so it stays proportional at
+        // every size, and shrink-0 stops it collapsing in flex rows.
+        <span
+          className="inline-flex shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-white/20"
+          style={{ padding: Math.round(h * 0.22) }}
+        >
+          {mark}
+        </span>
+      ) : (
+        mark
+      )}
 
       {!markOnly && (
         <span

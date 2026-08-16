@@ -19,6 +19,7 @@ import { company } from "@/config/site";
 import { expertiseAreas, homeFaqs, solutionAreas, whyChooseUs } from "@/content/home";
 import { smartWaterMonitor } from "@/content/products";
 import { coreServices, industries, processSteps } from "@/content/services";
+import { cn } from "@/lib/utils";
 
 const Index = () => (
   <Layout>
@@ -64,20 +65,29 @@ const Index = () => (
     <Section id="services">
       <SectionHeader
         label="What We Do"
-        title="Engineering excellence across four pillars"
-        description="We bring together IoT hardware, enterprise SaaS and AI, industry-focused learning, and robust security architecture to create systems that last."
+        title="Engineering excellence across three pillars"
+        description="We bring together IoT hardware, enterprise SaaS and AI platforms, and open-source virtual internships through KLS Academy — with security architecture underpinning all three."
         centered
       />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Mirrors the Services page grid exactly: same breakpoints, same
+          equal-height behaviour, same card component. The two pages read
+          from coreServices, so they cannot fall out of step. */}
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {coreServices.map((service, index) => (
-          <Reveal key={service.id} delay={index * 90} className="h-full">
+          <Reveal
+            key={service.id}
+            delay={index * 90}
+            className={cn(
+              "h-full",
+              index === coreServices.length - 1 && "sm:col-span-2 lg:col-span-1",
+            )}
+          >
             <FeatureCard
               icon={service.icon}
               title={service.title}
               description={service.description}
               bullets={service.bullets}
-              featured={index === 0}
             />
           </Reveal>
         ))}
@@ -102,10 +112,17 @@ const Index = () => (
         centered
       />
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {whyChooseUs.map((item, index) => (
-          <Reveal key={item.number} delay={index * 90}>
-            <div className="group relative h-full overflow-hidden rounded-2xl border border-border bg-background p-7 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card">
+          <Reveal
+            key={item.number}
+            delay={index * 90}
+            className={cn(
+              "h-full",
+              index === whyChooseUs.length - 1 && "sm:col-span-2 lg:col-span-1",
+            )}
+          >
+            <div className="group relative h-full overflow-hidden rounded-2xl border border-border bg-background p-6 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card sm:p-7">
               {/* Oversized step number as a watermark. */}
               <span
                 aria-hidden="true"
@@ -138,12 +155,14 @@ const Index = () => (
         centered
       />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Same padding, radius, border and hover as FeatureCard so this grid
+          reads as part of the same family rather than a one-off. */}
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {expertiseAreas.map((area, index) => (
           <Reveal key={area.id} delay={index * 80} className="h-full">
-            <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-xs transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card">
+            <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-xs transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card sm:p-6">
               <IconTile icon={area.icon} className="mb-5" />
-              <h3 className="heading-card mb-4 text-foreground">{area.title}</h3>
+              <h3 className="heading-card mb-4 line-clamp-2 text-foreground">{area.title}</h3>
               <ul className="space-y-2.5">
                 {area.items.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
@@ -151,7 +170,7 @@ const Index = () => (
                       className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
                       aria-hidden="true"
                     />
-                    {item}
+                    <span className="min-w-0">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -170,9 +189,16 @@ const Index = () => (
         centered
       />
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {industries.map((industry, index) => (
-          <Reveal key={industry.id} delay={index * 90} className="h-full">
+          <Reveal
+            key={industry.id}
+            delay={index * 90}
+            className={cn(
+              "h-full",
+              index === industries.length - 1 && "sm:col-span-2 lg:col-span-1",
+            )}
+          >
             <FeatureCard
               icon={industry.icon}
               title={industry.title}

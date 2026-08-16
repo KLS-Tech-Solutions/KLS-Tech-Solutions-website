@@ -132,17 +132,31 @@
   h3,
   h4 {
     @apply font-semibold tracking-tight text-balance;
+    /* Long unbroken strings — a product code, a URL in copy — would otherwise
+       push a card wider than the viewport on a 320px screen. */
+    overflow-wrap: break-word;
   }
 
-  p {
+  p,
+  li {
     @apply text-pretty;
+    overflow-wrap: break-word;
+  }
+
+  /* Media never exceeds its container, whatever intrinsic size it declares. */
+  img,
+  svg,
+  video {
+    @apply max-w-full;
   }
 }
 
 @layer components {
   /* ---- Layout primitives -------------------------------------------- */
+  /* Vertical rhythm steps up with the viewport; horizontal padding starts at
+     20px so cards never touch the edge on a 320px screen. */
   .section-padding {
-    @apply px-5 py-20 sm:px-6 md:py-24 lg:px-8 lg:py-28;
+    @apply px-5 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8 lg:py-28;
   }
 
   .container-narrow {
@@ -159,11 +173,22 @@
     @apply font-bold leading-[1.04] tracking-[-0.03em];
   }
 
+  /* Interior page H1. Deliberately smaller than .heading-display, which is
+     sized for the full-width home hero — at display size an interior title
+     wrapped to four lines and swallowed the fold. */
+  .heading-page {
+    font-size: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+    @apply font-bold leading-[1.08] tracking-[-0.028em];
+  }
+
   .heading-section {
     font-size: clamp(1.875rem, 1.4rem + 2vw, 2.875rem);
     @apply font-semibold leading-[1.12] tracking-[-0.025em];
   }
 
+  /* Card titles hold at 1.125rem to 1.25rem. They sit in narrow columns, so
+     they are deliberately not fluid — a longer service name should wrap
+     rather than shrink out of step with its neighbours. */
   .heading-card {
     @apply text-lg font-semibold leading-snug tracking-[-0.01em] sm:text-xl;
   }

@@ -94,15 +94,15 @@ export const isExternalNav = (item: NavItem) => item.external === true;
  */
 export const mainNav: NavItem[] = [
   { href: "/", label: "Home", description: "IoT engineering, SaaS, AI and secure systems" },
+  { href: "/about", label: "About", description: "Our mission, values and team" },
   { href: "/solutions", label: "Services", description: "Custom IoT, SaaS and AI engineering" },
   { href: "/products", label: "Products", description: "Smart Water Monitor and R&D pipeline" },
   {
     href: ACADEMY_URL,
     label: "Academy",
-    description: "Verified virtual internships and learning",
+    description: "Open-source virtual internships and learning",
     external: true,
   },
-  { href: "/about", label: "About", description: "Our mission, values and team" },
 ];
 
 /** Footer link groups. Kept separate so the footer can carry legal pages. */
@@ -135,8 +135,12 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
 ];
 
 /**
- * The four engineering pillars the company is built on. Referenced by the
- * home page, the services page and the Organization structured data.
+ * The three services the company offers, in the form the Organization
+ * structured data consumes. The rendered pages read from `coreServices` in
+ * content/services.ts — the ids match so the two stay traceable to each other.
+ *
+ * Security architecture is deliberately absent: it isn't a separate service,
+ * it's how all three are built, and it is covered by `knowsAbout` below.
  */
 export const corePillars = [
   {
@@ -155,12 +159,6 @@ export const corePillars = [
     id: "learning-virtual-internships",
     title: "Learning & Verified Virtual Internships",
     description:
-      "KLS Academy runs industry-focused virtual internship programs with real-world projects, mentor reviews and QR-verified digital certificates.",
-  },
-  {
-    id: "secure-system-architecture",
-    title: "Secure System Architecture",
-    description:
-      "End-to-end security built in from day one. Encrypted communications, secure boot, and compliance-ready infrastructure.",
+      "KLS Academy runs open-source virtual internship programs with real-world projects, mentor reviews and QR-verified digital certificates.",
   },
 ] as const;

@@ -118,6 +118,7 @@ const Contact = () => {
         title="Let's talk about your project"
         description="Have a question or want to discuss a potential project? We'd love to hear from you."
         breadcrumbs={[{ name: "Contact", path: "/contact" }]}
+        visual="contact"
       />
 
       <Section>

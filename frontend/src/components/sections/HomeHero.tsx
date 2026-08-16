@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
  * glow and grid are decorative, GPU-composited, and hidden from assistive
  * technology.
  *
- * The service line above the H1 rotates through the four pillars, and the
+ * The service line above the H1 rotates through the three services, and the
  * matching card in the stack lights up in step with it. Both read from the
  * same index, so the two halves of the hero can never disagree about which
  * service is on screen. The rotation stops for prefers-reduced-motion users
@@ -51,10 +51,10 @@ const HomeHero = () => {
             </Reveal>
 
             <Reveal delay={60}>
-              {/* Rotating service line. The height is reserved by the taller of
-                  the two lines it can occupy, so nothing below it shifts as the
-                  label changes. */}
-              <p className="eyebrow mt-6 flex min-h-[1.75rem] flex-wrap items-center gap-x-2 gap-y-1">
+              {/* Rotating service line. Two lines of height are reserved on
+                  small screens, where the longest service name wraps — without
+                  this the H1 below jumps as the label changes. */}
+              <p className="eyebrow mt-6 flex min-h-[3.25rem] flex-wrap items-center gap-x-2 gap-y-1 sm:min-h-[1.75rem]">
                 <span>We engineer</span>
                 <span
                   // Keying on the id restarts the fade for each service.
@@ -116,7 +116,7 @@ const HomeHero = () => {
                   <Reveal as="li" key={pillar.id} variant="right" delay={200 + index * 90}>
                     <div
                       className={cn(
-                        "group flex gap-4 rounded-2xl border p-5 shadow-xs backdrop-blur-sm",
+                        "group flex gap-3.5 rounded-2xl border p-4 shadow-xs backdrop-blur-sm sm:gap-4 sm:p-5",
                         "transition-all duration-500 ease-out-expo",
                         "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card",
                         active
@@ -126,7 +126,7 @@ const HomeHero = () => {
                     >
                       <span
                         className={cn(
-                          "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset",
+                          "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset sm:h-11 sm:w-11",
                           "transition-all duration-500 ease-out-expo group-hover:scale-105",
                           active
                             ? "bg-gradient-brand text-primary-foreground ring-transparent"
@@ -136,7 +136,9 @@ const HomeHero = () => {
                         <pillar.icon className="h-5 w-5" aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
-                        <h2 className="text-base font-semibold text-foreground">{pillar.title}</h2>
+                        <h2 className="text-[0.9375rem] font-semibold text-foreground sm:text-base">
+                          {pillar.title}
+                        </h2>
                         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                           {/* The one-line summary where present: the full service
                               copy belongs in the services grid, not the hero. */}

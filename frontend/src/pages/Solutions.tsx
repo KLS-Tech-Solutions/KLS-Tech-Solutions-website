@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import FeatureCard from "@/components/common/FeatureCard";
@@ -23,6 +23,7 @@ import {
   servicesFaqs,
 } from "@/content/services";
 import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
+import { cn } from "@/lib/utils";
 
 /**
  * Services & Solutions.
@@ -69,6 +70,7 @@ const Solutions = () => (
       title="Custom IoT and automation engineering, end to end"
       description="We partner with organizations to design, develop, and deploy tailored IoT and automation solutions. From concept to production, engineered for your specific requirements."
       breadcrumbs={[{ name: "Services", path: "/solutions" }]}
+      visual="services"
     >
       <div className="mt-9 flex flex-col gap-3 sm:flex-row">
         <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
@@ -122,29 +124,53 @@ const Solutions = () => (
     </Section>
 
     {/* ---- Services ---------------------------------------------------- */}
-    {/* The same four services shown on the home page, rendered from the same
+    {/* The same three services shown on the home page, rendered from the same
         source so the two pages cannot describe them differently. */}
     <Section id="services" bordered>
       <SectionHeader
         label="What We Do"
-        title="Four services, one engineering team"
-        description="IoT products, enterprise SaaS and AI platforms, industry-focused learning through KLS Academy, and the security architecture underpinning all three."
+        title="Three services, one engineering team"
+        description="IoT products, enterprise SaaS and AI platforms, and open-source virtual internships through KLS Academy — built by the same people, to the same standard."
         centered
       />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* One column on mobile, two on tablet, three from lg. `items-stretch`
+          plus h-full on the card keeps all three the same height on every
+          row, so the cards line up regardless of copy length. */}
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {coreServices.map((service, index) => (
-          <Reveal key={service.id} delay={index * 90} className="h-full">
+          <Reveal
+            key={service.id}
+            delay={index * 90}
+            className={cn(
+              "h-full",
+              // With three cards in a two-column tablet grid the last one is
+              // orphaned; centring it avoids a lopsided gap.
+              index === coreServices.length - 1 && "sm:col-span-2 lg:col-span-1",
+            )}
+          >
             <FeatureCard
               icon={service.icon}
               title={service.title}
               description={service.description}
               bullets={service.bullets}
-              featured={index === 0}
             />
           </Reveal>
         ))}
       </div>
+
+      {/* Security is no longer a fourth card because it isn't bought
+          separately — it underpins all three. Stated once, plainly. */}
+      <Reveal delay={320}>
+        <p className="mx-auto mt-10 flex max-w-3xl items-start justify-center gap-3 rounded-2xl border border-border bg-muted/40 p-5 text-sm leading-relaxed text-muted-foreground sm:items-center sm:text-center">
+          <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary sm:mt-0" aria-hidden="true" />
+          <span>
+            <span className="font-medium text-foreground">Security underpins all three. </span>
+            Encrypted communications, secure boot and compliance-ready infrastructure are built into
+            every engagement from day one — never added before launch.
+          </span>
+        </p>
+      </Reveal>
     </Section>
 
     {/* ---- Industries -------------------------------------------------- */}
@@ -156,9 +182,18 @@ const Solutions = () => (
         centered
       />
 
-      <div className="grid gap-6 md:grid-cols-3">
+      {/* Same breakpoints as the services grid above and the home page, so
+          every card row on the site behaves identically. */}
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {industries.map((industry, index) => (
-          <Reveal key={industry.id} delay={index * 90} className="h-full">
+          <Reveal
+            key={industry.id}
+            delay={index * 90}
+            className={cn(
+              "h-full",
+              index === industries.length - 1 && "sm:col-span-2 lg:col-span-1",
+            )}
+          >
             <div className="flex h-full flex-col">
               <FeatureCard
                 icon={industry.icon}

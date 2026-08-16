@@ -111,7 +111,7 @@ export const homeFaqs = [
   {
     question: "What services does KLS Tech Solutions offer?",
     answer:
-      "We offer four core areas. IoT product engineering covers custom hardware, embedded systems and firmware for connected devices, from sensors to gateways. Enterprise SaaS and AI solutions cover cloud-native multi-tenant platforms, workflow automation, REST APIs and applications powered by Generative AI and Agentic AI. Learning and verified virtual internships are delivered through KLS Academy, with real-world projects, mentor reviews and QR-verified certificates. Secure system architecture covers encrypted communications, secure boot and compliance-ready infrastructure. We deliver these as custom solutions for industrial, residential, commercial and enterprise clients.",
+      "We offer three core services. IoT product engineering covers custom hardware, embedded systems and firmware for connected devices, from sensors to gateways. Enterprise SaaS and AI solutions cover cloud-native multi-tenant platforms, workflow automation, REST APIs and applications powered by Generative AI and Agentic AI. Learning and verified virtual internships are delivered through KLS Academy, built around open-source projects with mentor reviews and QR-verified certificates. Secure system architecture — encrypted communications, secure boot and compliance-ready infrastructure — is not sold separately; it underpins all three. We deliver these as custom solutions for industrial, residential, commercial and enterprise clients.",
   },
   {
     question: "Where is KLS Tech Solutions located?",
