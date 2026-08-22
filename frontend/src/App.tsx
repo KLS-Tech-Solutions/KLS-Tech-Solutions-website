@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
+import RouteAnalytics from "@/components/layout/RouteAnalytics";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import JsonLd from "@/components/seo/JsonLd";
 import { Toaster } from "@/components/ui/toaster";
@@ -57,6 +58,8 @@ const App = () => (
           <JsonLd data={[organizationSchema(), websiteSchema()]} />
 
           <ScrollToTop />
+          {/* gtag only reports the initial load; this covers SPA navigation. */}
+          <RouteAnalytics />
 
           <Suspense fallback={<RouteFallback />}>
             <Routes>

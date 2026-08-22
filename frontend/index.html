@@ -29,6 +29,44 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Speeds up the analytics request by opening the connection early. -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+    <!--
+      Google Analytics 4 (gtag.js) — property G-9BLPF7SCZK
+
+      This is Google's standard snippet with one addition: gtag('config') is
+      skipped on localhost, so `npm run dev` sessions do not send events into
+      the production property. The script still loads and window.gtag is still
+      defined, so nothing in the app has to branch on it.
+
+      This site is a single-page app, so gtag only reports the FIRST page a
+      visitor lands on. Every route change after that is tracked from
+      src/components/layout/RouteAnalytics.tsx — without it, GA would show one
+      pageview per session and nothing else.
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BLPF7SCZK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      // Local and private-network hosts are excluded. The private ranges
+      // matter because `npm run dev` binds to all interfaces, so testing on a
+      // phone over Wi-Fi hits a 192.168.x address and would otherwise be
+      // recorded as real traffic.
+      window.__KLS_ANALYTICS_ENABLED__ =
+        !/^(localhost|127\.0\.0\.1|\[::1\]|.*\.local|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/.test(
+          location.hostname,
+        );
+
+      if (window.__KLS_ANALYTICS_ENABLED__) {
+        gtag("config", "G-9BLPF7SCZK");
+      }
+    </script>
   </head>
 
   <body>
