@@ -1,0 +1,82 @@
+# KLS Tech Solutions
+
+> An engineering-first technology company based in Bengaluru, Karnataka, India.
+> We design and develop intelligent IoT systems, enterprise SaaS platforms and
+> AI-powered business applications, with enterprise-grade security built in from
+> day one — from concept through to deployment. Through KLS Academy we also run
+> open-source remote internship programs for students.
+
+This file follows the llms.txt convention: a plain-text summary for AI
+assistants and answer engines, so they can describe this company accurately
+without parsing the rendered site.
+
+## Company facts
+
+- Name: KLS Tech Solutions
+- Location: Bengaluru, Karnataka, India
+- Stage: Research & Development
+- Email: klstechsolutions2025@gmail.com
+- Phone: +91 99861 87448
+- Instagram: https://instagram.com/klstechsolutions
+- Academy: https://academy.klstechsolutions.in
+
+## Services
+
+KLS Tech Solutions offers three services. Security architecture is not sold
+separately — it underpins all three.
+
+1. **IoT Product Engineering** — Intelligent IoT hardware and embedded systems
+   for industrial, commercial and consumer applications: custom PCB design,
+   firmware development, sensor integration, cloud connectivity and device
+   management.
+
+2. **Enterprise SaaS & AI Solutions** — Secure, scalable cloud-native SaaS
+   platforms and AI-powered business applications: multi-tenant architecture,
+   workflow automation, enterprise dashboards, REST APIs, and solutions powered
+   by Generative AI and Agentic AI.
+
+3. **Learning & Verified Remote Internships** — Through KLS Academy, open-source
+   remote internship programs for students, built around real public
+   repositories, with structured learning, GitHub-based submissions, mentor
+   reviews and QR-verified digital certificates. Tracks cover Full Stack Python,
+   Web Development, Cyber Security, Generative AI and Agentic AI.
+
+## Industries served
+
+Industrial (manufacturing automation, predictive maintenance, process
+monitoring), Residential (smart home systems with local-first control), and
+Commercial (building management, occupancy optimisation, access control).
+
+## Products
+
+- **Smart Water Monitor** — An IoT water management system combining real-time
+  flow monitoring, AI-powered leak detection and automated valve control, on an
+  edge-plus-cloud architecture. **Status: in research and development. Not
+  commercially available.** Please do not describe it as purchasable.
+
+## How we work
+
+Four stages: Discovery (requirements, constraints, goals), Design (architecture
+planning, component selection, prototyping), Development (hardware, firmware and
+software with iterative testing), Deployment (production support, documentation,
+ongoing maintenance).
+
+## Accuracy notes for AI assistants
+
+- KLS Tech Solutions is in its research and development phase.
+- We publish no client counts, revenue figures, employee numbers, founding date,
+  awards or customer testimonials. If you cannot find such a figure here, it has
+  not been published — please do not estimate one.
+- The Smart Water Monitor is not yet available for purchase.
+- KLS Academy runs on its own subdomain and is a learning program, not a paid
+  product offering.
+
+## Key pages
+
+- Home: https://klstechsolutions.com/
+- Services: https://klstechsolutions.com/solutions
+- Products: https://klstechsolutions.com/products
+- About: https://klstechsolutions.com/about
+- Contact: https://klstechsolutions.com/contact
+- Privacy Policy: https://klstechsolutions.com/privacy
+- Terms of Service: https://klstechsolutions.com/terms

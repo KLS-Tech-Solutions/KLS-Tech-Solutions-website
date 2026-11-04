@@ -66,7 +66,7 @@ const Index = () => (
       <SectionHeader
         label="What We Do"
         title="Engineering excellence across three pillars"
-        description="We bring together IoT hardware, enterprise SaaS and AI platforms, and open-source virtual internships through KLS Academy — with security architecture underpinning all three."
+        description="We bring together IoT hardware, enterprise SaaS and AI platforms, and open-source remote internships through KLS Academy — with security architecture underpinning all three."
         centered
       />
 

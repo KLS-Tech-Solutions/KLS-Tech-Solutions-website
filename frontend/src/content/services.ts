@@ -91,13 +91,13 @@ export const coreServices: readonly CoreService[] = [
     ],
   },
   {
-    id: "learning-virtual-internships",
+    id: "learning-remote-internships",
     icon: GraduationCap,
-    title: "Learning & Verified Virtual Internships",
+    title: "Learning & Verified Remote Internships",
     summary:
-      "KLS Academy runs open-source virtual internships with real projects and QR-verified certificates.",
+      "KLS Academy runs open-source remote internships with real projects and QR-verified certificates.",
     description:
-      "KLS Academy provides industry-focused virtual internship programs built around open-source work, designed to help students gain practical experience through real-world projects. Interns contribute to public repositories they can point an employer at, with structured learning, GitHub-based submissions, mentor reviews, LinkedIn engagement, and QR-verified digital certificates that evidence authentic industry experience.",
+      "KLS Academy provides industry-focused remote internship programs built around open-source work, designed to help students gain practical experience through real-world projects. Interns contribute to public repositories they can point an employer at, with structured learning, GitHub-based submissions, mentor reviews, LinkedIn engagement, and QR-verified digital certificates that evidence authentic industry experience.",
     bullets: [
       "Open Source Contributions",
       "Full Stack Python",
@@ -242,9 +242,9 @@ export const servicesFaqs = [
       "Security is designed in from the first architecture decision rather than added before launch, and it applies to all three services rather than being sold separately. In practice that means end-to-end encryption, certificate management, secure provisioning and compliance engineering as standard parts of the build — alongside secure boot and encrypted communications at the device level. We treat security as a foundation because retrofitting it into a deployed fleet of devices is significantly harder and less effective.",
   },
   {
-    question: "What is a verified virtual internship at KLS Academy?",
+    question: "What is a verified remote internship at KLS Academy?",
     answer:
-      "A verified virtual internship at KLS Academy is a remote, industry-focused program built around open-source work. Interns contribute to public repositories on real projects rather than throwaway exercises, so the work stays visible to future employers. Each program includes structured learning, GitHub-based project submissions, mentor reviews and LinkedIn engagement, and finishes with a QR-verified digital certificate that anyone can scan to confirm the experience is genuine. Tracks cover Full Stack Python, Web Development, Cyber Security, Generative AI and Agentic AI.",
+      "A verified remote internship at KLS Academy is an industry-focused program built around open-source work. Interns contribute to public repositories on real projects rather than throwaway exercises, so the work stays visible to future employers. Each program includes structured learning, GitHub-based project submissions, mentor reviews and LinkedIn engagement, and finishes with a QR-verified digital certificate that anyone can scan to confirm the experience is genuine. Tracks cover Full Stack Python, Web Development, Cyber Security, Generative AI and Agentic AI.",
   },
   {
     question: "Where is KLS Tech Solutions based, and who do you work with?",

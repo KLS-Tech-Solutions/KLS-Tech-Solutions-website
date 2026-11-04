@@ -69,6 +69,10 @@ export default {
           azure: "hsl(var(--brand-azure))",
           silver: "hsl(var(--brand-silver))",
           lime: "hsl(var(--brand-lime))",
+          /* Hero accent only. `pink` is the decorative tint (glows, fills);
+             `pinkInk` is the darkened variant that clears AA on text. */
+          pink: "hsl(var(--brand-pink))",
+          pinkInk: "hsl(var(--brand-pink-ink))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -98,6 +102,7 @@ export default {
       backgroundImage: {
         "gradient-brand": "var(--gradient-brand)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-hero": "var(--gradient-hero)",
         "gradient-surface": "var(--gradient-surface)",
         "gradient-card": "var(--gradient-card)",
       },

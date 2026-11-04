@@ -8,7 +8,15 @@
  * both a trust problem and a Google structured-data violation.
  */
 
-import { ACADEMY_URL, assets, company, contactInfo, contactLinks, SITE_URL } from "@/config/site";
+import {
+  ACADEMY_URL,
+  assets,
+  company,
+  contactInfo,
+  contactLinks,
+  corePillars,
+  SITE_URL,
+} from "@/config/site";
 
 type Schema = Record<string, unknown>;
 
@@ -57,7 +65,7 @@ export const organizationSchema = (): Schema => ({
     "Agentic AI",
     "FastAPI development",
     "Next.js development",
-    "Virtual internship programs",
+    "Remote internship programs",
     "Full stack Python",
     "Cyber security",
   ],
@@ -68,6 +76,56 @@ export const organizationSchema = (): Schema => ({
     telephone: contactInfo.phone,
     areaServed: "IN",
     availableLanguage: ["en"],
+  },
+});
+
+/**
+ * LocalBusiness markup, as a ProfessionalService.
+ *
+ * Organization alone tells Google what the company is; it does not say the
+ * company serves a place. This node is what surfaces KLS for searches like
+ * "IoT development company Bengaluru" and in local packs.
+ *
+ * Deliberately omitted: openingHours, geo coordinates, priceRange and
+ * aggregateRating. We have no verified values for any of them, and Google
+ * treats invented local data as a trust signal in the wrong direction.
+ */
+export const localBusinessSchema = (): Schema => ({
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}/#localbusiness`,
+  name: company.name,
+  description: company.description,
+  url: SITE_URL,
+  image: absolute(assets.ogImage),
+  logo: absolute(assets.logo),
+  email: contactInfo.email,
+  telephone: contactInfo.phone,
+  parentOrganization: { "@id": ORG_ID },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: contactInfo.addressLocality,
+    addressRegion: contactInfo.addressRegion,
+    addressCountry: contactInfo.addressCountry,
+  },
+  areaServed: [
+    { "@type": "City", name: "Bengaluru" },
+    { "@type": "State", name: "Karnataka" },
+    { "@type": "Country", name: "India" },
+  ],
+  knowsLanguage: ["en"],
+  sameAs: [contactLinks.instagram],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Engineering services",
+    itemListElement: corePillars.map((pillar) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: pillar.title,
+        description: pillar.description,
+      },
+    })),
   },
 });
 

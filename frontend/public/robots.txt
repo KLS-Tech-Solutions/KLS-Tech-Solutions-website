@@ -39,3 +39,6 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://klstechsolutions.com/sitemap.xml
+
+# Plain-text company summary for AI assistants and answer engines.
+# https://klstechsolutions.com/llms.txt

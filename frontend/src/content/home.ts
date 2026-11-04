@@ -106,12 +106,12 @@ export const homeFaqs = [
   {
     question: "What is KLS Tech Solutions?",
     answer:
-      "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — covering hardware, firmware, cloud infrastructure and security architecture from concept through to deployment. Through KLS Academy we also run verified virtual internship programs for students.",
+      "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — covering hardware, firmware, cloud infrastructure and security architecture from concept through to deployment. Through KLS Academy we also run verified remote internship programs for students.",
   },
   {
     question: "What services does KLS Tech Solutions offer?",
     answer:
-      "We offer three core services. IoT product engineering covers custom hardware, embedded systems and firmware for connected devices, from sensors to gateways. Enterprise SaaS and AI solutions cover cloud-native multi-tenant platforms, workflow automation, REST APIs and applications powered by Generative AI and Agentic AI. Learning and verified virtual internships are delivered through KLS Academy, built around open-source projects with mentor reviews and QR-verified certificates. Secure system architecture — encrypted communications, secure boot and compliance-ready infrastructure — is not sold separately; it underpins all three. We deliver these as custom solutions for industrial, residential, commercial and enterprise clients.",
+      "We offer three core services. IoT product engineering covers custom hardware, embedded systems and firmware for connected devices, from sensors to gateways. Enterprise SaaS and AI solutions cover cloud-native multi-tenant platforms, workflow automation, REST APIs and applications powered by Generative AI and Agentic AI. Learning and verified remote internships are delivered through KLS Academy, built around open-source projects with mentor reviews and QR-verified certificates. Secure system architecture — encrypted communications, secure boot and compliance-ready infrastructure — is not sold separately; it underpins all three. We deliver these as custom solutions for industrial, residential, commercial and enterprise clients.",
   },
   {
     question: "Where is KLS Tech Solutions located?",

@@ -130,7 +130,7 @@ const Solutions = () => (
       <SectionHeader
         label="What We Do"
         title="Three services, one engineering team"
-        description="IoT products, enterprise SaaS and AI platforms, and open-source virtual internships through KLS Academy — built by the same people, to the same standard."
+        description="IoT products, enterprise SaaS and AI platforms, and open-source remote internships through KLS Academy — built by the same people, to the same standard."
         centered
       />
 

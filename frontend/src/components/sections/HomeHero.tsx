@@ -1,34 +1,45 @@
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Pill from "@/components/common/Pill";
 import Reveal from "@/components/common/Reveal";
+import HeroDevice from "@/components/sections/HeroDevice";
 import { Button } from "@/components/ui/button";
 import { company } from "@/config/site";
 import { coreServices } from "@/content/services";
-import { useRotatingIndex } from "@/hooks/useRotatingIndex";
+import { useTypewriter } from "@/hooks/useTypewriter";
 import { cn } from "@/lib/utils";
 
 /**
  * Home page hero.
  *
- * The H1 is the LCP element and is plain text with no webfont-dependent
- * layout shift — nothing above it competes for the first paint. The ambient
- * glow and grid are decorative, GPU-composited, and hidden from assistive
- * technology.
+ * The H1 is the LCP element and is plain static text — nothing above it
+ * competes for the first paint, and it is deliberately NOT the animated
+ * element. Search engines and the accessibility tree both read a stable
+ * "Smart Living, Engineered"; the motion lives on the line above it.
  *
- * The service line above the H1 rotates through the three services, and the
- * matching card in the stack lights up in step with it. Both read from the
- * same index, so the two halves of the hero can never disagree about which
- * service is on screen. The rotation stops for prefers-reduced-motion users
- * and while the tab is hidden — see useRotatingIndex.
+ * That line already rotated through the three services on a timer. It now
+ * types each one out instead, with a caret, and the device panel on the right
+ * switches scene from the same index — so the two halves of the hero can
+ * never disagree about which service is on screen.
+ *
+ * The device replaces the pillar-card stack that used to sit here. The cards
+ * were not dropped: they moved to a compact row beneath the fold line, where
+ * they still carry the same three service descriptions.
+ *
+ * Both the typewriter and the scene rotation stop under
+ * prefers-reduced-motion, and the typed line's height is reserved for two
+ * lines of text so a long service name cannot reflow the page mid-keystroke.
  */
 const HomeHero = () => {
-  const activeIndex = useRotatingIndex(coreServices.length);
-  const activePillar = coreServices[activeIndex];
+  // Memoised so the typewriter effect is not torn down on every render.
+  const serviceNames = useMemo(() => coreServices.map((s) => s.title), []);
+
+  const { text, wordIndex, isAnimating } = useTypewriter({ words: serviceNames });
 
   return (
-    <section className="relative flex min-h-[92dvh] items-center overflow-hidden px-5 pb-20 pt-28 sm:px-6 md:pt-32 lg:px-8">
+    <section className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-6 md:pt-32 lg:px-8">
       {/* ---- Ambient background (decorative) ---- */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-surface" />
       <div
@@ -39,11 +50,16 @@ const HomeHero = () => {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/4 h-[520px] w-[min(1100px,110%)] -translate-x-1/2 rounded-full bg-primary/12 blur-[120px] motion-safe:animate-aurora"
       />
+      {/* Hero-only pink wash, warming the right side behind the device. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-1/3 h-[380px] w-[min(620px,70%)] rounded-full bg-brand-pink/10 blur-[110px]"
+      />
 
       <div className="container-wide relative">
-        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* ---- Copy ---- */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <Reveal>
               <Pill icon={Sparkles} tone="accent">
                 {company.stage} — building in the open
@@ -51,23 +67,29 @@ const HomeHero = () => {
             </Reveal>
 
             <Reveal delay={60}>
-              {/* Rotating service line. Two lines of height are reserved on
-                  small screens, where the longest service name wraps — without
-                  this the H1 below jumps as the label changes. */}
-              <p className="eyebrow mt-6 flex min-h-[3.25rem] flex-wrap items-center gap-x-2 gap-y-1 sm:min-h-[1.75rem]">
-                <span>We engineer</span>
-                <span
-                  // Keying on the id restarts the fade for each service.
-                  key={activePillar.id}
-                  className="text-gradient motion-safe:animate-fade-in"
-                >
-                  {activePillar.title}
+              {/*
+                Typed service line. Height is reserved for two lines at every
+                breakpoint: the text length changes on every keystroke, and an
+                unreserved line would reflow the H1 below it continuously.
+              */}
+              <p className="eyebrow mt-6 flex min-h-[3.5rem] flex-wrap items-start gap-x-2 gap-y-1 sm:min-h-[2.25rem]">
+                <span className="shrink-0">We engineer</span>
+                <span className="text-gradient-hero">
+                  {text}
+                  {isAnimating && <span className="type-caret" aria-hidden="true" />}
+                </span>
+                {/* The typed text is decorative duplication — the same three
+                    services are listed in full further down the page — so it
+                    is announced once, completely, rather than letter by
+                    letter. */}
+                <span className="sr-only">
+                  {serviceNames.join(", ")}
                 </span>
               </p>
             </Reveal>
 
             <Reveal delay={100}>
-              <h1 className="heading-display mt-4 text-foreground">
+              <h1 className="heading-display mt-3 text-foreground">
                 Smart Living, <span className="text-gradient">Engineered</span>
               </h1>
             </Reveal>
@@ -103,55 +125,59 @@ const HomeHero = () => {
             </Reveal>
           </div>
 
-          {/* ---- Pillar stack ---- */}
-          {/* Presented as cards rather than a stock illustration: it puts real
-              content above the fold and avoids shipping a large hero image.
-              The card matching the rotating label above is highlighted. */}
-          <div className="lg:col-span-5">
-            <ul className="space-y-3">
-              {coreServices.map((pillar, index) => {
-                const active = index === activeIndex;
-
-                return (
-                  <Reveal as="li" key={pillar.id} variant="right" delay={200 + index * 90}>
-                    <div
-                      className={cn(
-                        "group flex gap-3.5 rounded-2xl border p-4 shadow-xs backdrop-blur-sm sm:gap-4 sm:p-5",
-                        "transition-all duration-500 ease-out-expo",
-                        "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card",
-                        active
-                          ? "border-primary/35 bg-card shadow-card"
-                          : "border-border bg-card/70",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset sm:h-11 sm:w-11",
-                          "transition-all duration-500 ease-out-expo group-hover:scale-105",
-                          active
-                            ? "bg-gradient-brand text-primary-foreground ring-transparent"
-                            : "bg-primary/10 text-primary ring-primary/15",
-                        )}
-                      >
-                        <pillar.icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                      <div className="min-w-0">
-                        <h2 className="text-[0.9375rem] font-semibold text-foreground sm:text-base">
-                          {pillar.title}
-                        </h2>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                          {/* The one-line summary where present: the full service
-                              copy belongs in the services grid, not the hero. */}
-                          {pillar.summary ?? pillar.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
-            </ul>
-          </div>
+          {/* ---- Device panel ---- */}
+          <Reveal variant="right" delay={200} className="lg:col-span-6">
+            <HeroDevice activeIndex={wordIndex} className="mx-auto max-w-[560px]" />
+          </Reveal>
         </div>
+
+        {/* ---- Service strip ---- */}
+        {/* The pillar cards that previously filled the right column. Same
+            three services, same copy, compacted into a row so they support
+            the device rather than compete with it. */}
+        <ul className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:mt-20">
+          {coreServices.map((pillar, index) => {
+            const active = index === wordIndex;
+
+            return (
+              <Reveal
+                as="li"
+                key={pillar.id}
+                delay={320 + index * 90}
+                className={cn("h-full", index === coreServices.length - 1 && "sm:col-span-2 lg:col-span-1")}
+              >
+                <div
+                  className={cn(
+                    "flex h-full gap-3.5 rounded-2xl border p-4 shadow-xs backdrop-blur-sm sm:gap-4 sm:p-5",
+                    "transition-all duration-500 ease-out-expo",
+                    "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card",
+                    active ? "border-primary/35 bg-card shadow-card" : "border-border bg-card/70",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset sm:h-11 sm:w-11",
+                      "transition-all duration-500 ease-out-expo",
+                      active
+                        ? "bg-gradient-brand text-primary-foreground ring-transparent"
+                        : "bg-primary/10 text-primary ring-primary/15",
+                    )}
+                  >
+                    <pillar.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <h2 className="text-[0.9375rem] font-semibold text-foreground sm:text-base">
+                      {pillar.title}
+                    </h2>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {pillar.summary ?? pillar.description}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

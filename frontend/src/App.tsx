@@ -9,7 +9,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { localBusinessSchema, organizationSchema, websiteSchema } from "@/lib/schema";
 
 import Index from "./pages/Index";
 
@@ -55,7 +55,7 @@ const App = () => (
         <BrowserRouter>
           {/* Organization and WebSite schema are site-wide, so they are
               emitted once here rather than repeated on every page. */}
-          <JsonLd data={[organizationSchema(), websiteSchema()]} />
+          <JsonLd data={[organizationSchema(), websiteSchema(), localBusinessSchema()]} />
 
           <ScrollToTop />
           {/* gtag only reports the initial load; this covers SPA navigation. */}

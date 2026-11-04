@@ -19,9 +19,9 @@ export const company = {
    * so answer engines and AI assistants can quote it accurately.
    */
   description:
-    "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — from concept through to deployment. Through KLS Academy we also run verified virtual internship programs for students.",
+    "KLS Tech Solutions is an engineering-first technology company based in Bengaluru, India. We design and develop intelligent IoT systems, enterprise SaaS platforms and AI-powered business applications, with enterprise-grade security built in from day one — from concept through to deployment. Through KLS Academy we also run verified remote internship programs for students.",
   shortDescription:
-    "Engineering intelligent IoT systems, enterprise SaaS and AI solutions with enterprise-grade security — plus verified virtual internships through KLS Academy.",
+    "Engineering intelligent IoT systems, enterprise SaaS and AI solutions with enterprise-grade security — plus verified remote internships through KLS Academy.",
   foundingLocation: "Bengaluru, Karnataka, India",
   /** Current company stage. Stated plainly rather than dressed up. */
   stage: "Research & Development",
@@ -61,7 +61,7 @@ export const assets = {
 } as const;
 
 /**
- * KLS Academy — the virtual internship and learning platform.
+ * KLS Academy — the remote internship and learning platform.
  *
  * It lives on its own subdomain rather than a route in this app, so every
  * link to it is a plain anchor. It opens in the same tab: it is our own
@@ -100,7 +100,7 @@ export const mainNav: NavItem[] = [
   {
     href: ACADEMY_URL,
     label: "Academy",
-    description: "Open-source virtual internships and learning",
+    description: "Open-source remote internships and learning",
     external: true,
   },
 ];
@@ -156,9 +156,9 @@ export const corePillars = [
       "Secure, scalable cloud-native SaaS platforms and AI-powered business applications: multi-tenant architecture, workflow automation, REST APIs and Generative and Agentic AI integrations.",
   },
   {
-    id: "learning-virtual-internships",
-    title: "Learning & Verified Virtual Internships",
+    id: "learning-remote-internships",
+    title: "Learning & Verified Remote Internships",
     description:
-      "KLS Academy runs open-source virtual internship programs with real-world projects, mentor reviews and QR-verified digital certificates.",
+      "KLS Academy runs open-source remote internship programs with real-world projects, mentor reviews and QR-verified digital certificates.",
   },
 ] as const;

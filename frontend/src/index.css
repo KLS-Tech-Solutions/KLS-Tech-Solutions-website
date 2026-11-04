@@ -67,9 +67,24 @@
     --brand-silver: 0 0% 72%;
     --brand-lime: 82 79% 44%;
 
+    /*
+     * Pink is a hero-only accent, not a brand colour — it appears in the
+     * typewriter cursor, the hero glow and one gradient stop, and nowhere
+     * else. Lime remains the site-wide accent.
+     *
+     * Two values, because one cannot do both jobs: --brand-pink is the soft
+     * tint used for glows and fills, --brand-pink-ink is darkened to 44%
+     * lightness so it clears WCAG AA (4.5:1) when used on text.
+     */
+    --brand-pink: 334 78% 62%;
+    --brand-pink-ink: 334 72% 40%;
+
     /* ---- Gradients --------------------------------------------------- */
     --gradient-brand: linear-gradient(120deg, hsl(212 88% 18%) 0%, hsl(199 88% 33%) 55%, hsl(197 84% 42%) 100%);
     --gradient-accent: linear-gradient(120deg, hsl(199 88% 35%) 0%, hsl(82 70% 33%) 140%);
+    /* Hero-only. Navy into azure into pink, so the pink reads as the warm end
+       of the existing brand ramp rather than a colour bolted on. */
+    --gradient-hero: linear-gradient(115deg, hsl(212 88% 18%) 0%, hsl(199 88% 33%) 48%, hsl(334 72% 48%) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(210 40% 99%) 0%, hsl(210 36% 97%) 100%);
     --gradient-card: linear-gradient(155deg, hsl(0 0% 100%) 0%, hsl(210 34% 98%) 100%);
 
@@ -206,6 +221,44 @@
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-brand);
+  }
+
+  /* Hero headline only — carries the pink end of the ramp. */
+  .text-gradient-hero {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-hero);
+  }
+
+  /* Blinking block cursor for the typewriter headline. Sized from the
+     current font so it scales with the fluid heading. */
+  .type-caret {
+    display: inline-block;
+    width: 0.56em;
+    height: 0.82em;
+    margin-left: 0.08em;
+    vertical-align: -0.06em;
+    border-radius: 2px;
+    background-color: hsl(var(--brand-pink-ink));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .type-caret {
+      animation: caret-blink 1.05s steps(1, end) infinite;
+    }
+  }
+
+  @keyframes caret-blink {
+    0%,
+    45% {
+      opacity: 1;
+    }
+    50%,
+    95% {
+      opacity: 0.15;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   .glass {

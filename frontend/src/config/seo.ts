@@ -28,7 +28,7 @@ export const pageMeta = {
     titleOverride: `${company.name} | IoT Engineering, Enterprise SaaS, AI Solutions & KLS Academy`,
     title: "IoT Engineering, Enterprise SaaS, AI Solutions & KLS Academy",
     description:
-      "KLS Tech Solutions builds IoT products, enterprise SaaS platforms and AI solutions in Bengaluru — plus verified virtual internships through KLS Academy.",
+      "KLS Tech Solutions builds IoT products, enterprise SaaS platforms and AI solutions in Bengaluru — plus verified remote internships through KLS Academy.",
     path: "/",
     keywords: [
       "IoT product engineering",
@@ -42,7 +42,7 @@ export const pageMeta = {
       "embedded firmware development",
       "secure IoT architecture",
       "smart water monitoring",
-      "Virtual Internship",
+      "Remote Internship",
       "KLS Academy",
       "Full Stack Python Internship",
       "Cyber Security Internship",
