@@ -72,16 +72,19 @@ export const pageMeta = {
     ],
   },
   products: {
-    title: "Smart Water Monitor — Intelligent Water Management IoT",
+    title: "Our Products — KLS Academy & the Smart Water Monitor",
     description:
-      "The KLS Smart Water Monitor delivers real-time consumption analytics, AI-powered leak detection and automated valve control. Currently in research and development.",
+      "KLS Academy is a free, open-source platform for remote internships with engineer-reviewed projects and QR-verified certificates. The Smart Water Monitor is our IoT water management system, in R&D.",
     path: "/products",
     keywords: [
+      "KLS Academy",
+      "free remote internship with certificate",
+      "open source internship platform",
+      "engineer reviewed internship projects",
+      "QR verified certificate",
       "smart water monitor",
       "IoT water management",
       "AI leak detection",
-      "automated valve control",
-      "water consumption analytics",
     ],
   },
   about: {
@@ -101,6 +104,19 @@ export const pageMeta = {
       "Get in touch with KLS Tech Solutions about an IoT, automation or embedded systems project. Based in Bengaluru; we typically reply within 1-2 business days.",
     path: "/contact",
     keywords: ["contact KLS Tech Solutions", "IoT consultation Bengaluru", "IoT project enquiry"],
+  },
+  faq: {
+    title: "FAQ — Questions About KLS Tech Solutions & KLS Academy",
+    description:
+      "Answers about KLS Tech Solutions: our IoT, SaaS and AI engineering services, how projects run, the Smart Water Monitor, and KLS Academy's free remote internships and verified certificates.",
+    path: "/faq",
+    keywords: [
+      "KLS Tech Solutions FAQ",
+      "KLS Academy questions",
+      "free remote internship FAQ",
+      "IoT engineering questions",
+      "verified certificate how it works",
+    ],
   },
   privacy: {
     title: "Privacy Policy",

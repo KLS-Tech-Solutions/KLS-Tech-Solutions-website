@@ -126,18 +126,24 @@ const Navbar = () => {
                     {navLink(
                       item,
                       cn(
-                        // Padding tightens at lg and relaxes at xl: with five
+                        // Padding tightens at lg and relaxes at xl: with six
                         // nav items plus the logo and CTA, the pill would
                         // otherwise crowd on a 1024px screen.
                         "relative inline-flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all duration-300 ease-out-expo xl:px-3.5",
                         active
                           ? "bg-accent/70 text-foreground"
                           : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                        // Featured item (Academy) sits inside a soft dark ring
+                        // so it reads as the one thing worth clicking first.
+                        // A ring rather than a fill keeps it from competing
+                        // with the Contact Us button beside it.
+                        item.featured &&
+                          "text-foreground ring-1 ring-inset ring-foreground/25 hover:ring-foreground/45",
                       ),
                       <>
                         {item.label}
                         {/* Active indicator — decorative; state is on aria-current. */}
-                        {active && (
+                        {active && !item.featured && (
                           <span
                             aria-hidden="true"
                             className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-gradient-brand xl:inset-x-3.5"
@@ -205,6 +211,9 @@ const Navbar = () => {
                         active
                           ? "bg-primary/10 text-primary"
                           : "text-foreground hover:bg-accent active:bg-accent",
+                        // Same ring treatment as desktop, so the featured item
+                        // is recognisable on either layout.
+                        item.featured && "ring-1 ring-inset ring-foreground/25",
                       ),
                       <>
                         <span className="text-sm font-medium">{item.label}</span>

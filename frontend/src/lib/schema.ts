@@ -222,6 +222,89 @@ export const productSchema = ({
   },
 });
 
+export interface SoftwareApplicationSchemaInput {
+  name: string;
+  description: string;
+  url: string;
+  category: string;
+  /** SPDX or OSI licence URL. */
+  licence?: string;
+}
+
+/**
+ * SoftwareApplication markup for KLS Academy.
+ *
+ * The zero-price offer is the single most valuable claim here — "free
+ * internship with certificate" is a high-intent query, and price: 0 with a
+ * currency is what lets Google state it. It is a verifiable fact: the Academy
+ * charges nothing at any stage.
+ *
+ * No aggregateRating, no review count, no download numbers — none are
+ * published, so none are marked up.
+ */
+export const softwareApplicationSchema = ({
+  name,
+  description,
+  url,
+  category,
+  licence,
+}: SoftwareApplicationSchemaInput): Schema => ({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name,
+  description,
+  url,
+  applicationCategory: category,
+  operatingSystem: "Web browser",
+  publisher: { "@id": ORG_ID },
+  ...(licence ? { license: licence, isAccessibleForFree: true } : {}),
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "INR",
+    availability: "https://schema.org/InStock",
+    url,
+  },
+});
+
+export interface EducationalProgramSchemaInput {
+  name: string;
+  description: string;
+  url: string;
+  /** Programme length in weeks. */
+  weeks: number;
+}
+
+/**
+ * EducationalOccupationalProgram markup, one node per internship stream.
+ *
+ * This is the correct type for an internship — more specific than Course, and
+ * it lets the duration, the remote delivery mode and the zero fee all be
+ * stated explicitly rather than inferred from prose.
+ */
+export const educationalProgramSchema = ({
+  name,
+  description,
+  url,
+  weeks,
+}: EducationalProgramSchemaInput): Schema => ({
+  "@context": "https://schema.org",
+  "@type": "EducationalOccupationalProgram",
+  name,
+  description,
+  url,
+  programType: "Internship",
+  educationalProgramMode: "online",
+  timeToComplete: `P${weeks}W`,
+  provider: { "@id": ORG_ID },
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "INR",
+    category: "Free",
+  },
+});
+
 export interface FaqEntry {
   question: string;
   answer: string;

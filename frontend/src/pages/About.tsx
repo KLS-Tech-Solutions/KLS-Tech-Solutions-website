@@ -130,6 +130,7 @@ const About = () => (
       label="About FAQ"
       title="More about who we are"
       description="Our background, our approach, and what engineering-first means in practice."
+      withSchema={false}
     />
 
     <CtaBanner

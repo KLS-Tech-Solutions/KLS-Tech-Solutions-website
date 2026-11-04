@@ -20,9 +20,11 @@ import { cn } from "@/lib/utils";
  * "Smart Living, Engineered"; the motion lives on the line above it.
  *
  * That line already rotated through the three services on a timer. It now
- * types each one out instead, with a caret, and the device panel on the right
- * switches scene from the same index — so the two halves of the hero can
- * never disagree about which service is on screen.
+ * types each one out instead, with a caret, and the service cards beneath
+ * highlight from the same index — so the typed word and the highlighted card
+ * can never disagree. The device panel plays the brand film independently;
+ * syncing a 10-second film to a typing cycle would mean cutting one of them
+ * to fit the other.
  *
  * The device replaces the pillar-card stack that used to sit here. The cards
  * were not dropped: they moved to a compact row beneath the fold line, where
@@ -127,7 +129,7 @@ const HomeHero = () => {
 
           {/* ---- Device panel ---- */}
           <Reveal variant="right" delay={200} className="lg:col-span-6">
-            <HeroDevice activeIndex={wordIndex} className="mx-auto max-w-[560px]" />
+            <HeroDevice className="mx-auto max-w-[560px]" />
           </Reveal>
         </div>
 

@@ -340,6 +340,7 @@ const Index = () => (
       label="Common Questions"
       title="What people ask about KLS Tech Solutions"
       description="Straight answers about who we are, what we build, and where we are today."
+      withSchema={false}
     />
 
     <CtaBanner

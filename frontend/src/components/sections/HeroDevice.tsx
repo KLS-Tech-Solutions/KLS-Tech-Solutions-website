@@ -1,276 +1,92 @@
+import { useEffect, useRef, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 /**
- * The hero's device panel — a wall-mounted IoT control unit.
+ * The hero's device panel — a wall-mounted IoT control unit playing the KLS
+ * brand film.
  *
  * Deliberately not a desktop monitor. KLS builds connected hardware, so the
  * frame is a device the company could plausibly have made: rounded chassis,
- * inset bezel, a live status LED and a sensor slot along the top edge.
+ * inset bezel, a live status LED and a sensor slot along the top edge. The
+ * film is dark navy and cyan, so inside a light chassis it reads as a screen
+ * that is genuinely powered on.
  *
- * The three scenes inside are inline SVG rather than images. That means no
- * network request, no decode cost, nothing to lazy-load, and no contribution
- * to LCP — the panel paints with the rest of the markup. It also means every
- * stroke reads from the theme tokens, so the artwork can never drift out of
- * sync with the palette, and nothing here resembles stock or generated
- * imagery.
+ * Loading strategy, which matters because an autoplaying hero video is the
+ * classic way to wreck Largest Contentful Paint:
  *
- * Everything is decorative: the copy beside it carries the meaning, so the
- * whole panel is hidden from assistive technology.
+ *  - The poster is a 28 KB WebP and is the only thing fetched during the
+ *    initial paint. It is what LCP measures.
+ *  - The video element carries preload="none" and no source at all until
+ *    after the window load event, so it cannot compete with fonts, CSS or
+ *    the critical JS for bandwidth.
+ *  - It only mounts a source on viewports wide enough to show the panel, so
+ *    phones never download 787 KB they will not see.
+ *  - Under prefers-reduced-motion the video is never loaded; the poster
+ *    stays, which is a complete and correct representation of the content.
+ *
+ * The whole panel is decorative — the copy beside it carries the meaning —
+ * so it is hidden from assistive technology.
  */
 
+const VIDEO_SRC = "/kls-brand-film.mp4";
+const POSTER_SRC = "/kls-brand-film-poster.webp";
+
+/** Matches the `lg` breakpoint, below which the panel is not rendered. */
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
 interface HeroDeviceProps {
-  /** Index of the scene to show — driven by the headline so they stay in step. */
-  activeIndex: number;
   className?: string;
 }
 
-const SCENE_COUNT = 3;
+const HeroDevice = ({ className }: HeroDeviceProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-/* ------------------------------------------------------------------ */
-/* Scene 1 — IoT: sensors reporting into a gateway                     */
-/* ------------------------------------------------------------------ */
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const isDesktop = window.matchMedia(DESKTOP_QUERY);
 
-const SceneIot = () => (
-  <svg viewBox="0 0 320 200" className="h-full w-full" role="presentation">
-    <defs>
-      <linearGradient id="kls-iot-link" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
-        <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.75" />
-      </linearGradient>
-    </defs>
+    if (prefersReducedMotion.matches || !isDesktop.matches) return;
 
-    {/* Links from each sensor into the hub. */}
-    {[
-      [54, 44],
-      [54, 100],
-      [54, 156],
-      [266, 44],
-      [266, 100],
-      [266, 156],
-    ].map(([x, y], i) => (
-      <line
-        key={i}
-        x1={x}
-        y1={y}
-        x2="160"
-        y2="100"
-        stroke="url(#kls-iot-link)"
-        strokeWidth="1.6"
-        strokeDasharray="3 5"
-        className="motion-safe:animate-pulse-soft"
-        style={{ animationDelay: `${i * 260}ms` }}
-      />
-    ))}
+    // Wait for load rather than mount: at mount the browser is still fetching
+    // render-critical assets, and adding a video source here would contend
+    // with them for bandwidth on a slow connection.
+    const start = () => setShouldLoad(true);
 
-    {/* Sensor nodes. */}
-    {[
-      [54, 44],
-      [54, 100],
-      [54, 156],
-      [266, 44],
-      [266, 100],
-      [266, 156],
-    ].map(([x, y], i) => (
-      <g key={i}>
-        <circle cx={x} cy={y} r="13" fill="hsl(var(--primary) / 0.10)" />
-        <circle
-          cx={x}
-          cy={y}
-          r="5.5"
-          fill="hsl(var(--primary))"
-          className="motion-safe:animate-pulse-soft"
-          style={{ animationDelay: `${i * 300}ms` }}
-        />
-      </g>
-    ))}
+    if (document.readyState === "complete") {
+      // Already loaded (client-side nav). Yield one frame so this never runs
+      // inside the same paint as the rest of the hero.
+      const raf = requestAnimationFrame(start);
+      return () => cancelAnimationFrame(raf);
+    }
 
-    {/* Central gateway. */}
-    <rect
-      x="128"
-      y="74"
-      width="64"
-      height="52"
-      rx="11"
-      fill="hsl(var(--card))"
-      stroke="hsl(var(--primary) / 0.5)"
-      strokeWidth="2"
-    />
-    {[86, 95, 104].map((y, i) => (
-      <rect
-        key={y}
-        x="140"
-        y={y}
-        width={i === 1 ? 40 : 28}
-        height="4"
-        rx="2"
-        fill="hsl(var(--primary) / 0.45)"
-      />
-    ))}
-    <circle cx="182" cy="83" r="3" fill="hsl(var(--brand-lime))" />
-  </svg>
-);
+    window.addEventListener("load", start, { once: true });
+    return () => window.removeEventListener("load", start);
+  }, []);
 
-/* ------------------------------------------------------------------ */
-/* Scene 2 — SaaS & AI: a metrics surface                              */
-/* ------------------------------------------------------------------ */
+  /** Pause off-screen — a looping video in a scrolled-past hero is wasted CPU. */
+  useEffect(() => {
+    const node = videoRef.current;
+    if (!node || !shouldLoad || typeof IntersectionObserver === "undefined") return;
 
-const SceneSaas = () => (
-  <svg viewBox="0 0 320 200" className="h-full w-full" role="presentation">
-    <defs>
-      <linearGradient id="kls-saas-area" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="hsl(var(--brand-pink) / 0.30)" />
-        <stop offset="100%" stopColor="hsl(var(--brand-pink) / 0)" />
-      </linearGradient>
-    </defs>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          void node.play().catch(() => {
+            /* Autoplay refused (power saving, OS setting) — poster remains. */
+          });
+        } else {
+          node.pause();
+        }
+      },
+      { threshold: 0.15 },
+    );
 
-    {/* Baseline grid. */}
-    {[40, 76, 112, 148].map((y) => (
-      <line key={y} x1="24" y1={y} x2="296" y2={y} stroke="hsl(var(--border))" strokeWidth="1" />
-    ))}
-
-    {/* Trend area + line. */}
-    <path
-      d="M24 132 C60 132 66 96 98 96 C130 96 136 118 168 112 C200 106 206 66 238 62 C266 58 276 74 296 70 L296 148 L24 148 Z"
-      fill="url(#kls-saas-area)"
-    />
-    <path
-      d="M24 132 C60 132 66 96 98 96 C130 96 136 118 168 112 C200 106 206 66 238 62 C266 58 276 74 296 70"
-      fill="none"
-      stroke="hsl(var(--primary))"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-    />
-
-    {/* Point markers. */}
-    {[
-      [98, 96],
-      [168, 112],
-      [238, 62],
-    ].map(([x, y], i) => (
-      <circle
-        key={i}
-        cx={x}
-        cy={y}
-        r="4.5"
-        fill="hsl(var(--card))"
-        stroke="hsl(var(--primary))"
-        strokeWidth="2.4"
-      />
-    ))}
-
-    {/* Stat tiles along the bottom. */}
-    {[24, 118, 212].map((x, i) => (
-      <g key={x}>
-        <rect
-          x={x}
-          y="160"
-          width="84"
-          height="26"
-          rx="7"
-          fill="hsl(var(--primary) / 0.06)"
-          stroke="hsl(var(--primary) / 0.22)"
-          strokeWidth="1"
-        />
-        <rect
-          x={x + 10}
-          y="170"
-          width={i === 1 ? 44 : 34}
-          height="6"
-          rx="3"
-          fill="hsl(var(--primary) / 0.4)"
-        />
-      </g>
-    ))}
-  </svg>
-);
-
-/* ------------------------------------------------------------------ */
-/* Scene 3 — Academy: verified open-source work                        */
-/* ------------------------------------------------------------------ */
-
-const SceneAcademy = () => (
-  <svg viewBox="0 0 320 200" className="h-full w-full" role="presentation">
-    {/* Commit spine with branch. */}
-    <path
-      d="M52 36 L52 164"
-      stroke="hsl(var(--border))"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <path
-      d="M52 100 C52 72 96 72 96 44"
-      fill="none"
-      stroke="hsl(var(--primary) / 0.45)"
-      strokeWidth="2"
-    />
-
-    {[36, 72, 100, 128, 164].map((y, i) => (
-      <circle
-        key={y}
-        cx="52"
-        cy={y}
-        r="6.5"
-        fill={i === 2 ? "hsl(var(--primary))" : "hsl(var(--card))"}
-        stroke="hsl(var(--primary))"
-        strokeWidth="2.2"
-        className={i === 2 ? "motion-safe:animate-pulse-soft" : undefined}
-      />
-    ))}
-    <circle cx="96" cy="44" r="6.5" fill="hsl(var(--card))" stroke="hsl(var(--brand-lime))" strokeWidth="2.2" />
-
-    {/* Commit rows. */}
-    {[36, 72, 100, 128, 164].map((y, i) => (
-      <rect
-        key={y}
-        x="72"
-        y={y - 4}
-        width={[96, 132, 148, 110, 124][i]}
-        height="8"
-        rx="4"
-        fill="hsl(var(--muted-foreground) / 0.22)"
-      />
-    ))}
-
-    {/* Verified certificate badge. */}
-    <g>
-      <rect
-        x="206"
-        y="92"
-        width="92"
-        height="72"
-        rx="12"
-        fill="hsl(var(--card))"
-        stroke="hsl(var(--brand-lime) / 0.55)"
-        strokeWidth="2"
-      />
-      {/* QR-ish grid, the thing that makes the certificate verifiable. */}
-      {[0, 1, 2].map((r) =>
-        [0, 1, 2].map((cIdx) => (
-          <rect
-            key={`${r}-${cIdx}`}
-            x={222 + cIdx * 18}
-            y={106 + r * 18}
-            width="12"
-            height="12"
-            rx="2.5"
-            fill={
-              (r + cIdx) % 2 === 0
-                ? "hsl(var(--brand-lime) / 0.75)"
-                : "hsl(var(--primary) / 0.25)"
-            }
-          />
-        )),
-      )}
-    </g>
-  </svg>
-);
-
-const SCENES = [SceneIot, SceneSaas, SceneAcademy] as const;
-
-/* ------------------------------------------------------------------ */
-
-const HeroDevice = ({ activeIndex, className }: HeroDeviceProps) => {
-  const safeIndex = ((activeIndex % SCENE_COUNT) + SCENE_COUNT) % SCENE_COUNT;
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
 
   return (
     <div aria-hidden="true" className={cn("relative select-none", className)}>
@@ -298,39 +114,44 @@ const HeroDevice = ({ activeIndex, className }: HeroDeviceProps) => {
           </div>
 
           {/* ---- Screen ---- */}
-          <div className="relative overflow-hidden rounded-[1.4rem] border border-border bg-background">
-            <div className="pointer-events-none absolute inset-0 bg-grid opacity-60" />
+          {/* 16/9 matches the film exactly, so nothing is cropped or pillarboxed. */}
+          <div className="relative aspect-video overflow-hidden rounded-[1.4rem] border border-border bg-brand-navy">
+            <video
+              ref={videoRef}
+              // The poster paints immediately and carries LCP; the video file
+              // is attached later by the effect above.
+              poster={POSTER_SRC}
+              src={shouldLoad ? VIDEO_SRC : undefined}
+              preload="none"
+              muted
+              loop
+              playsInline
+              // Browsers block autoplay with sound, so a muted loop is the
+              // only thing that reliably plays. disablePictureInPicture and
+              // the controls omission keep it reading as a screen, not a player.
+              disablePictureInPicture
+              onPlaying={() => setIsPlaying(true)}
+              className="h-full w-full object-cover"
+            />
 
-            {/* All three scenes are mounted and cross-faded. Swapping the
-                mounted element instead would re-trigger the SVG animations
-                on every change and flicker. */}
-            <div className="relative aspect-[16/10]">
-              {SCENES.map((Scene, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    "absolute inset-0 p-4 transition-opacity duration-700 ease-out-expo sm:p-5",
-                    i === safeIndex ? "opacity-100" : "opacity-0",
-                  )}
-                >
-                  <Scene />
-                </div>
-              ))}
-            </div>
+            {/* Faint screen sheen, sold as glass rather than a flat rectangle. */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-white/[0.08]" />
           </div>
 
           {/* ---- Control strip ---- */}
           <div className="mt-3 flex items-center justify-between px-3">
-            <span className="flex items-center gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all duration-500",
-                    i === safeIndex ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/25",
-                  )}
-                />
-              ))}
+            <span className="flex items-center gap-2">
+              {/* Doubles as a playback indicator: lime and pulsing once the
+                  film is actually running, inert while it is not. */}
+              <span
+                className={cn(
+                  "h-1.5 w-1.5 rounded-full transition-colors duration-500",
+                  isPlaying ? "bg-brand-lime motion-safe:animate-pulse-soft" : "bg-muted-foreground/25",
+                )}
+              />
+              <span className="text-[0.625rem] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                KLS Tech Solutions
+              </span>
             </span>
             <span className="h-4 w-4 rounded-full border-2 border-muted-foreground/20" />
           </div>

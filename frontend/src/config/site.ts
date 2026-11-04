@@ -80,6 +80,11 @@ export interface NavItem {
    * URL as a relative path.
    */
   external?: boolean;
+  /**
+   * Draws the item inside a ring so it reads as the featured destination.
+   * Reserved for one item at a time — ringing two is ringing neither.
+   */
+  featured?: boolean;
 }
 
 /** Single predicate so every consumer decides <a> vs <Link> the same way. */
@@ -97,11 +102,15 @@ export const mainNav: NavItem[] = [
   { href: "/about", label: "About", description: "Our mission, values and team" },
   { href: "/solutions", label: "Services", description: "Custom IoT, SaaS and AI engineering" },
   { href: "/products", label: "Products", description: "Smart Water Monitor and R&D pipeline" },
+  { href: "/faq", label: "FAQ", description: "Answers to everything people ask us" },
+  // Academy sits last on purpose: it is the only item that leaves the site,
+  // and the ring makes it read as a destination rather than a section.
   {
     href: ACADEMY_URL,
     label: "Academy",
     description: "Open-source remote internships and learning",
     external: true,
+    featured: true,
   },
 ];
 
@@ -112,6 +121,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     items: [
       { href: "/", label: "Home" },
       { href: "/about", label: "About Us" },
+      { href: "/faq", label: "FAQ" },
       { href: "/contact", label: "Contact" },
     ],
   },

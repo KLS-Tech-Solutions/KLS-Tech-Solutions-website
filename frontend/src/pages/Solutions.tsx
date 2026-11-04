@@ -252,6 +252,7 @@ const Solutions = () => (
       label="Service FAQ"
       title="Questions about working with us"
       description="What we build, how we work, and how engagements are structured."
+      withSchema={false}
     />
 
     <CtaBanner
